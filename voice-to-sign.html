@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Type or speak English to play an animated sign-language learning guide with dictionary references and fingerspelling.">
+  <meta name="theme-color" content="#17374c">
+  <title>Voice to sign video — Hand in Hand</title>
+  <link rel="stylesheet" href="./css/home.css">
+  <link rel="stylesheet" href="./css/dictionary.css">
+  <link rel="stylesheet" href="./css/voice-to-sign.css">
+  <script src="./js/dictionary-index.js" defer></script>
+  <script src="./js/pdf-sign-index.js" defer></script>
+  <script src="./js/joy-sign-index.js" defer></script>
+  <script src="./js/dictionary-search.js" defer></script>
+  <script src="./js/voice-to-sign.js" defer></script>
+</head>
+<body class="home-page voice-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="./index.html" aria-label="Hand in Hand home">
+      <span class="brand-mark" aria-hidden="true">h</span>
+      <span>hand<span class="brand-accent">in</span>hand</span>
+    </a>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="./index.html#dictionary">Dictionary</a>
+      <a class="nav-cta" href="./ZimbabweanTranslator.html">Text translator <span aria-hidden="true">↗</span></a>
+      <div class="language-nav" aria-label="Sign language translators">
+        <a href="./ZimbabweanTranslator.html" aria-label="Zimbabwean Sign Language">ZSL</a>
+        <a href="./AmericanTranslator.html" aria-label="American Sign Language">ASL</a>
+        <a href="./BritishTranslator.html" aria-label="British Sign Language">BSL</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main-content" class="voice-main">
+    <section class="voice-heading">
+      <p class="eyebrow">A visual signing guide</p>
+      <h1>Turn words into <span>signs.</span></h1>
+      <p>Type a phrase or use your microphone. Play a word-by-word visual sequence with ZSL dictionary references, ASL illustrations where available, and fingerspelling when neither dictionary has a match.</p>
+    </section>
+
+    <section class="voice-workspace" aria-label="Voice to sign player">
+      <div class="voice-input-panel">
+        <label for="voice-text">Your words</label>
+        <textarea id="voice-text" maxlength="250" placeholder="Type something to sign… for example, “hello, how are you?”"></textarea>
+        <div class="voice-actions">
+          <button class="button button-primary" type="button" id="generate-signs">Build sign sequence <span aria-hidden="true">→</span></button>
+          <button class="button button-mic" type="button" id="voice-mic" aria-pressed="false"><span aria-hidden="true">●</span> Speak</button>
+        </div>
+        <p id="voice-status" class="voice-status" role="status" aria-live="polite">Enter a phrase to prepare its sign sequence.</p>
+      </div>
+
+      <div class="sign-player" id="sign-player" aria-label="Sign video or image-sequence player">
+        <div class="player-screen">
+          <span class="screen-badge"><span class="screen-dot" aria-hidden="true"></span> VIDEO-STYLE GUIDE</span>
+          <video id="generated-sign-video" class="generated-sign-video" controls playsinline hidden aria-label="Generated Zimbabwean Sign Language video"></video>
+          <figure class="video-frame" id="image-sequence-frame" aria-live="polite" aria-atomic="true">
+            <div class="video-image-wrap">
+              <img id="reference-image" alt="" hidden>
+              <p id="reference-empty">Your sign frames will appear here.</p>
+              <span id="frame-kind" class="frame-kind" hidden></span>
+            </div>
+            <figcaption>
+              <span id="frame-word">Ready to play</span>
+              <small id="frame-source">Dictionary photos and letter handshapes are visual references.</small>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="player-controls">
+          <button type="button" id="previous-frame" aria-label="Previous sign" disabled>‹</button>
+          <button type="button" id="play-signs" class="play-button" aria-label="Play sign sequence" disabled>▶</button>
+          <button type="button" id="next-frame" aria-label="Next sign" disabled>›</button>
+          <div class="timeline" aria-label="Sign sequence progress"><span id="timeline-progress"></span></div>
+          <span id="frame-count">0 / 0</span>
+          <label class="speed-control" id="image-speed-control">Speed
+            <select id="playback-speed" aria-label="Playback speed">
+              <option value="0.7">0.7×</option>
+              <option value="1" selected>1×</option>
+              <option value="1.3">1.3×</option>
+            </select>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <p class="voice-disclaimer"><strong>Learning aid:</strong> The player advances through actual images from the available sign references; it does not create continuous human signing video. Missing words use sequential ASL alphabet handshape images. Sign languages are distinct, and fingerspelling is not a full sign-language translation.</p>
+
+    <form id="dictionary-lookup" class="dictionary-source-results" data-dictionary-search data-search-input="#dictionary-query" data-results-selector="#dictionary-results" data-search-delay="80" data-split-words="true" data-asl-fallback="true" aria-hidden="true">
+      <input id="dictionary-query" type="search">
+      <button type="submit">Search dictionary</button>
+    </form>
+    <div id="dictionary-results" class="dictionary-source-results" data-dictionary-results aria-hidden="true"></div>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand footer-brand" href="./index.html"><span class="brand-mark" aria-hidden="true">h</span><span>hand<span class="brand-accent">in</span>hand</span></a>
+    <p>Made for more meaningful conversations.</p>
+    <a href="#main-content">Back to top ↑</a>
+  </footer>
+</body>
+</html>

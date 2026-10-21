@@ -1,0 +1,80 @@
+.video-text-main { width: min(1100px, calc(100% - 48px)); margin: 0 auto; padding: 44px 0 70px; }
+.video-text-heading { max-width: 760px; margin: 0 auto 32px; text-align: center; }
+.video-text-heading .eyebrow { margin-bottom: 10px; }
+.video-text-heading h1 { margin-bottom: 12px; font-family: Manrope, "Segoe UI", sans-serif; font-size: clamp(40px, 5vw, 60px); letter-spacing: -3px; line-height: 1.08; }
+.video-text-heading h1 span { color: var(--violet); }
+.video-text-heading > p:last-child { max-width: 700px; margin: 0 auto; color: var(--muted); font-size: 14px; line-height: 1.8; }
+.camera-workspace { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(280px, .9fr); gap: 18px; align-items: stretch; }
+.camera-panel, .transcription-panel { min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 10px; background: white; box-shadow: 0 12px 38px rgba(30, 73, 64, .05); }
+.camera-view { position: relative; display: grid; min-height: 320px; place-items: center; overflow: hidden; background: radial-gradient(ellipse at 50% 35%, rgba(87, 116, 128, .5), transparent 60%), linear-gradient(135deg, #243f50, #152c3a 72%); }
+.camera-view video { display: block; width: 100%; height: 100%; min-height: 320px; max-height: 480px; object-fit: cover; transform: scaleX(-1); }
+.camera-view video[hidden] { display: none; }
+.camera-placeholder { position: absolute; inset: 0; display: grid; align-content: center; justify-items: center; color: rgba(255,255,255,.78); text-align: center; }
+.camera-placeholder[hidden] { display: none; }
+.camera-placeholder > span { display: grid; width: 70px; height: 70px; margin-bottom: 12px; place-items: center; border: 1px solid rgba(255,255,255,.26); border-radius: 50%; color: #f2bd6e; font-size: 38px; }
+.camera-placeholder p { margin: 0; font-size: 12px; }
+.camera-indicator { position: absolute; top: 14px; left: 14px; display: flex; align-items: center; gap: 7px; padding: 6px 9px; border: 1px solid rgba(255,255,255,.22); border-radius: 20px; background: rgba(16,42,58,.7); color: white; font-size: 9px; font-weight: 800; letter-spacing: 1px; }
+.camera-indicator span { width: 7px; height: 7px; border-radius: 50%; background: #81918b; }
+.camera-panel.is-recording .camera-indicator span { background: #e7685a; box-shadow: 0 0 0 4px rgba(231,104,90,.18); }
+.camera-controls { padding: 17px 19px 13px; }
+.camera-controls label { display: grid; gap: 6px; color: var(--ink); font-size: 11px; font-weight: 700; }
+.camera-controls select { width: 100%; min-height: 40px; padding: 0 10px; border: 1px solid var(--line); border-radius: 6px; background: #fff; color: var(--ink); font: inherit; font-size: 12px; }
+.camera-buttons { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 13px; }
+.camera-buttons .button { min-height: 41px; padding: 0 13px; font-size: 12px; }
+.camera-stop { border: 1px solid var(--line); background: white; color: var(--ink); }
+.camera-stop:disabled { cursor: not-allowed; opacity: .5; }
+.camera-status { min-height: 38px; margin: 12px 0 0; color: var(--muted); font-size: 11px; line-height: 1.6; }
+.transcription-panel { display: flex; flex-direction: column; padding: 20px; }
+.transcription-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.transcription-heading .eyebrow { margin-bottom: 4px; font-size: 9px; }
+.transcription-heading h2 { margin: 0; font-family: Manrope, "Segoe UI", sans-serif; font-size: 21px; letter-spacing: -.5px; }
+.clear-button { padding: 7px 10px; border: 1px solid var(--line); border-radius: 6px; background: white; color: var(--muted); cursor: pointer; font: inherit; font-size: 10px; font-weight: 700; }
+#recognized-text { width: 100%; min-height: 200px; flex: 1; margin-top: 15px; padding: 12px; resize: vertical; border: 1px solid var(--line); border-radius: 7px; background: #fbfcfa; color: var(--ink); font: inherit; font-size: 16px; line-height: 1.7; }
+#recognized-text::placeholder { color: #929f99; font-size: 13px; }
+.transcript-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.transcript-actions .button { min-height: 40px; padding: 0 12px; font-size: 11px; }
+.confidence-note { color: var(--muted); font-size: 10px; }
+.privacy-note { margin: 13px 0 0; color: #788681; font-size: 10px; line-height: 1.6; }
+.dataset-collector { margin-top: 68px; padding: 34px; border: 1px solid var(--line); border-radius: 10px; background: white; box-shadow: 0 12px 38px rgba(30, 73, 64, .04); }
+.dataset-collector .section-heading { margin-bottom: 24px; }
+.dataset-collector .section-heading h2 { font-size: clamp(32px, 4vw, 44px); }
+.dataset-collector .section-heading h2 span { color: var(--violet); }
+.dataset-form { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.dataset-form > label:not(.consent-check) { display: grid; align-content: start; gap: 7px; color: var(--ink); font-size: 11px; font-weight: 700; }
+.dataset-form > label input:not([type="checkbox"]) { width: 100%; min-height: 42px; padding: 0 10px; border: 1px solid var(--line); border-radius: 6px; background: #fbfcfa; color: var(--ink); font: inherit; font-size: 12px; }
+.dataset-form > label input::placeholder { color: #929f99; }
+.consent-check { display: flex; grid-column: 1 / -1; align-items: flex-start; gap: 9px; padding: 12px; border: 1px solid #e8dfc9; border-radius: 6px; background: #fcfaf5; color: #5f665f; cursor: pointer; font-size: 11px; line-height: 1.6; }
+.consent-check input { flex: 0 0 auto; margin: 3px 0 0; accent-color: var(--green); }
+.dataset-actions { display: flex; grid-column: 1 / -1; flex-wrap: wrap; gap: 9px; }
+.dataset-actions .button { min-height: 40px; padding: 0 12px; font-size: 11px; }
+.dataset-actions .button:disabled { cursor: not-allowed; opacity: .5; }
+.dataset-form .camera-status, .dataset-form .privacy-note { grid-column: 1 / -1; }
+.dataset-form .privacy-note { margin-top: 0; }
+.dataset-form .privacy-note strong { color: var(--ink); }
+.detected-dictionary { margin-top: 75px; padding-top: 65px; border-top: 1px solid var(--line); }
+.detected-dictionary .section-heading { margin-bottom: 24px; }
+.detected-dictionary .section-heading h2 { font-size: clamp(34px, 4vw, 46px); }
+.detected-dictionary .dictionary-results { min-height: 95px; }
+.camera-dictionary-search { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; overflow: hidden !important; clip: rect(0, 0, 0, 0) !important; white-space: nowrap !important; clip-path: inset(50%) !important; }
+.video-text-disclaimer { margin: 24px 0 0; padding: 14px 16px; border-left: 3px solid #e9aa50; background: #f0eee8; color: #687773; font-size: 11px; line-height: 1.7; }
+.video-text-disclaimer strong { color: var(--ink); }
+
+@media (max-width: 760px) {
+  .video-text-main { width: calc(100% - 32px); padding-top: 32px; }
+  .camera-workspace { grid-template-columns: 1fr; }
+  .camera-view, .camera-view video { min-height: 250px; }
+  #recognized-text { min-height: 150px; }
+  .dataset-collector { padding: 23px; }
+  .dataset-form { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .detected-dictionary { margin-top: 54px; padding-top: 48px; }
+}
+
+@media (max-width: 440px) {
+  .video-text-main { width: calc(100% - 24px); }
+  .camera-view, .camera-view video { min-height: 215px; }
+  .camera-controls, .transcription-panel { padding-right: 14px; padding-left: 14px; }
+  .dataset-collector { padding: 17px; }
+  .dataset-form { grid-template-columns: 1fr; }
+  .consent-check, .dataset-actions, .dataset-form .camera-status, .dataset-form .privacy-note { grid-column: 1; }
+  .detected-dictionary .section-heading h2 { font-size: 36px; }
+}

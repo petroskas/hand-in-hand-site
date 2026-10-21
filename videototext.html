@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Use your device camera with a configured sign-language recognition model to transcribe signs and look up ZSL-first dictionary references.">
+  <meta name="theme-color" content="#17374c">
+  <title>Video to Text — Hand in Hand</title>
+  <link rel="stylesheet" href="./css/home.css">
+  <link rel="stylesheet" href="./css/dictionary.css">
+  <link rel="stylesheet" href="./css/video-to-text.css">
+  <script src="./js/dictionary-index.js" defer></script>
+  <script src="./js/pdf-sign-index.js" defer></script>
+  <script src="./js/joy-sign-index.js" defer></script>
+  <script src="./js/dictionary-search.js" defer></script>
+  <script src="./js/video-to-text.js" defer></script>
+</head>
+<body class="home-page video-text-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="./index.html" aria-label="Hand in Hand home">
+      <span class="brand-mark" aria-hidden="true">h</span>
+      <span>hand<span class="brand-accent">in</span>hand</span>
+    </a>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="./index.html#languages">Explore</a>
+      <a class="nav-cta" href="./voice-to-sign.html">Voice to sign <span aria-hidden="true">↗</span></a>
+      <div class="language-nav" aria-label="Sign language translators">
+        <a href="./ZimbabweanTranslator.html" aria-label="Zimbabwean Sign Language">ZSL</a>
+        <a href="./AmericanTranslator.html" aria-label="American Sign Language">ASL</a>
+        <a href="./BritishTranslator.html" aria-label="British Sign Language">BSL</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main-content" class="video-text-main">
+    <section class="video-text-heading">
+      <p class="eyebrow">Camera sign recognition</p>
+      <h1>Video to <span>text.</span></h1>
+      <p>Allow camera access and sign in front of it. A compatible ZSL recognition model can transcribe signs into text; look up the recognized words in the ZSL dictionary, with ASL references and fingerspelling clearly labelled when needed.</p>
+    </section>
+
+    <section class="camera-workspace" aria-label="Camera sign recognition and dictionary lookup">
+      <div class="camera-panel">
+        <div class="camera-view">
+          <video id="camera-preview" autoplay muted playsinline aria-label="Live camera preview"></video>
+          <div id="camera-placeholder" class="camera-placeholder">
+            <span aria-hidden="true">◎</span>
+            <p>Camera preview will appear here</p>
+          </div>
+          <span class="camera-indicator"><span aria-hidden="true"></span> CAMERA</span>
+        </div>
+        <div class="camera-controls">
+          <label for="recognition-language">Recognition language
+            <select id="recognition-language">
+              <option value="zsl" selected>Zimbabwean Sign Language (ZSL)</option>
+              <option value="asl">American Sign Language (ASL)</option>
+            </select>
+          </label>
+          <div class="camera-buttons">
+            <button class="button button-primary" id="start-camera" type="button">Start camera</button>
+            <button class="button camera-stop" id="stop-camera" type="button" disabled>Stop camera</button>
+          </div>
+          <p id="camera-status" class="camera-status" role="status" aria-live="polite">A compatible sign-recognition model is required for camera transcription.</p>
+        </div>
+      </div>
+
+      <div class="transcription-panel">
+        <div class="transcription-heading">
+          <div>
+            <p class="eyebrow">Live transcript</p>
+            <h2>Recognized text</h2>
+          </div>
+          <button type="button" id="clear-transcript" class="clear-button">Clear</button>
+        </div>
+        <textarea id="recognized-text" maxlength="1000" placeholder="Recognized signs will appear here when a compatible model is connected." aria-label="Recognized sign-language text"></textarea>
+        <div class="transcript-actions">
+          <button class="button button-primary" type="button" id="find-transcript-signs">Find dictionary signs</button>
+          <span id="recognition-confidence" class="confidence-note" aria-live="polite"></span>
+        </div>
+        <p class="privacy-note">Camera video stays in this browser unless the configured recognition provider sends it elsewhere. Check the provider’s privacy terms before enabling it.</p>
+      </div>
+    </section>
+
+    <section class="dataset-collector" aria-labelledby="dataset-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Academic research workflow</p>
+          <h2 id="dataset-title">Collect consented <span>ZSL samples.</span></h2>
+        </div>
+        <p class="section-description">A ZSL model needs real, labeled ZSL video examples. Record one sign at a time; clips download directly to your device and are not uploaded by this page.</p>
+      </div>
+      <div class="dataset-form">
+        <label for="sample-gloss">ZSL gloss / sign label
+          <input id="sample-gloss" type="text" maxlength="60" placeholder="Example: HELP" autocomplete="off">
+        </label>
+        <label for="sample-translation">English meaning
+          <input id="sample-translation" type="text" maxlength="120" placeholder="Example: help" autocomplete="off">
+        </label>
+        <label for="sample-participant">Participant code (pseudonym)
+          <input id="sample-participant" type="text" maxlength="40" placeholder="Example: signer-01" autocomplete="off">
+        </label>
+        <label class="consent-check">
+          <input id="sample-consent" type="checkbox">
+          <span>I have informed consent from the signer to record and use this clip for the stated research.</span>
+        </label>
+        <div class="dataset-actions">
+          <button class="button button-primary" id="start-sample" type="button" disabled>Record labelled sample</button>
+          <button class="button camera-stop" id="stop-sample" type="button" disabled>Stop and save clip</button>
+          <button class="button camera-stop" id="download-annotations" type="button" disabled>Download labels CSV</button>
+        </div>
+        <p id="dataset-status" class="camera-status" role="status" aria-live="polite">Start the camera first. Use a pseudonymous participant code; do not include names or identifying details in labels.</p>
+        <p class="privacy-note"><strong>Research safeguards:</strong> Obtain ethics approval and informed consent before collecting participants’ video. This page saves each clip and annotation CSV through your browser downloads; it does not transmit or permanently store samples. Keep recordings in an access-controlled location and follow your institution’s retention and deletion rules.</p>
+      </div>
+    </section>
+
+    <section class="detected-dictionary" aria-labelledby="detected-dictionary-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Optional word references</p>
+          <h2 id="detected-dictionary-title">See the <span>sign photos.</span></h2>
+        </div>
+        <p class="section-description">Recognized text can be searched without changing the transcript. ZSL signs are preferred, then available ASL dictionary illustrations; words without a match use the existing ASL fingerspelling aid.</p>
+      </div>
+      <div id="camera-dictionary-results" class="dictionary-results" data-dictionary-results role="region" aria-label="Sign dictionary photos for recognized words" aria-live="polite" aria-atomic="true">
+        <p class="results-empty">Start a camera session with a recognition model, or enter text above and select “Find dictionary signs”.</p>
+      </div>
+      <form id="camera-dictionary-search" class="camera-dictionary-search" data-dictionary-search data-search-input="#camera-dictionary-query" data-results-selector="#camera-dictionary-results" data-search-delay="0" data-split-words="true" data-asl-fallback="true" aria-hidden="true">
+        <input id="camera-dictionary-query" type="search">
+        <button type="submit">Search dictionary</button>
+      </form>
+    </section>
+
+    <p class="video-text-disclaimer"><strong>Accuracy note:</strong> Hand tracking by itself cannot translate sign language. Sign recognition needs a language-specific model trained on appropriate data, including movement and context. This page does not guess signs from hand shape; without a configured model it still supports manual text entry and dictionary lookup. ASL and ZSL are distinct languages.</p>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand footer-brand" href="./index.html"><span class="brand-mark" aria-hidden="true">h</span><span>hand<span class="brand-accent">in</span>hand</span></a>
+    <p>Made for more meaningful conversations.</p>
+    <a href="#main-content">Back to top ↑</a>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore Zimbabwean Sign Language, find signs in the photo dictionary, and practise inclusive communication.">
+  <meta name="theme-color" content="#17374c">
+  <title>Hand in Hand — Sign language, made visible</title>
+  <link rel="stylesheet" href="./css/home.css">
+  <link rel="stylesheet" href="./css/dictionary.css">
+  <script src="./js/dictionary-index.js" defer></script>
+  <script src="./js/pdf-sign-index.js" defer></script>
+  <script src="./js/dictionary-search.js" defer></script>
+</head>
+<body class="home-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="./index.html" aria-label="Hand in Hand home">
+      <span class="brand-mark" aria-hidden="true">h</span>
+      <span>hand<span class="brand-accent">in</span>hand</span>
+    </a>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="#dictionary">Dictionary</a>
+      <a href="#languages">Explore</a>
+      <a class="nav-cta" href="./videototext.html">Video to text <span aria-hidden="true">↗</span></a>
+      <div class="language-nav" aria-label="Sign language translators">
+        <a href="./ZimbabweanTranslator.html" aria-label="Zimbabwean Sign Language">ZSL</a>
+        <a href="./AmericanTranslator.html" aria-label="American Sign Language">ASL</a>
+        <a href="./BritishTranslator.html" aria-label="British Sign Language">BSL</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> Everyone deserves to be understood</p>
+        <h1>Words are only<br>the <span>beginning.</span></h1>
+        <p class="hero-intro">Discover sign languages, one sign at a time. Explore real dictionary images, practise with a text translator, and turn typed or spoken words into an animated signing guide.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="./voice-to-sign.html">Try voice to sign <span aria-hidden="true">→</span></a>
+          <a class="text-link" href="#dictionary">Find a sign <span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="hero-note"><span aria-hidden="true">✳</span> A welcoming place to learn, practise, and connect.</div>
+      </div>
+      <div class="hero-art" aria-label="A Zimbabwean Sign Language dictionary example">
+        <div class="art-orbit orbit-one" aria-hidden="true"></div>
+        <div class="art-orbit orbit-two" aria-hidden="true"></div>
+        <div class="art-label"><span class="art-pulse" aria-hidden="true"></span> A SIGN TO SHARE</div>
+        <img src="./dictionary/help.PNG" alt="Zimbabwean Sign Language dictionary image for help">
+        <div class="art-caption"><span>Help</span><small>Zimbabwean Sign Language</small></div>
+        <span class="art-spark spark-one" aria-hidden="true">✳</span>
+        <span class="art-spark spark-two" aria-hidden="true">✳</span>
+      </div>
+      <div class="hero-decoration" aria-hidden="true">ACCESS • DIGNITY • CONNECTION</div>
+    </section>
+
+    <section class="dictionary-section" id="dictionary" aria-labelledby="dictionary-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Your everyday sign finder</p>
+          <h2 id="dictionary-title">Look up a word.<br><span>See the sign.</span></h2>
+        </div>
+        <p class="section-description">Search the Zimbabwean Sign Language photo dictionary. Type a word or phrase to find its sign image.</p>
+      </div>
+      <form class="dictionary-search" data-dictionary-search data-search-input="#dictionary-query">
+        <label class="visually-hidden" for="dictionary-query">Word or phrase to look up</label>
+        <span class="search-icon" aria-hidden="true">⌕</span>
+        <input id="dictionary-query" type="search" maxlength="250" placeholder="Try “hello”, “water” or “thank you”" autocomplete="off">
+        <button class="button button-primary" type="submit">Find sign <span aria-hidden="true">→</span></button>
+      </form>
+      <p class="search-hint">A word is enough to get started. No account needed.</p>
+      <div class="dictionary-results" data-dictionary-results role="region" aria-label="Dictionary search results" aria-live="polite" aria-atomic="true">
+        <p class="results-empty">Your matching sign images will appear here.</p>
+      </div>
+      <p class="dictionary-source">Looking for the full reference? <a href="./dictionary/ZSL.pdf.pdf">Browse the Zimbabwean Sign Language dictionary PDF <span aria-hidden="true">↗</span></a></p>
+    </section>
+
+    <section class="language-section" id="languages" aria-labelledby="languages-title">
+      <div class="section-heading language-heading">
+        <div>
+          <p class="eyebrow">Choose your way in</p>
+          <h2 id="languages-title">Explore. Practise.<br><span>Connect.</span></h2>
+        </div>
+        <p class="section-description">Start with Zimbabwean Sign Language, or explore the other alphabet-based learning tools in this project.</p>
+      </div>
+      <div class="feature-grid">
+        <a class="feature-card" href="./videototext.html">
+          <span class="feature-number">00 / CAMERA</span>
+          <span class="feature-icon" aria-hidden="true">◎</span>
+          <h3>Video to text</h3>
+          <p>Use a compatible sign-recognition model with your camera to transcribe signs, then find ZSL-first dictionary references.</p>
+          <span class="feature-link">Open camera tool <span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="feature-card feature-primary" href="./voice-to-sign.html">
+          <span class="feature-number">01 / VOICE</span>
+          <span class="feature-icon" aria-hidden="true">▶</span>
+          <h3>Voice to sign video</h3>
+          <p>Type or speak a phrase and play an animated signing guide, using dictionary references and fingerspelling when needed.</p>
+          <span class="feature-link">Open sign player <span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="feature-card feature-primary" href="./ZimbabweanTranslator.html">
+          <span class="feature-number">02 / ZSL</span>
+          <span class="feature-icon" aria-hidden="true">↔</span>
+          <h3>Zimbabwean Sign Language</h3>
+          <p>Type or speak English, then look up word-level photos from the Zimbabwean Sign Language dictionary.</p>
+          <span class="feature-link">Open translator <span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="feature-card" href="./AmericanTranslator.html">
+          <span class="feature-number">03 / ASL</span>
+          <span class="feature-icon" aria-hidden="true">Aa</span>
+          <h3>American Sign Language</h3>
+          <p>Practise spelling words with the American alphabet handshapes.</p>
+          <span class="feature-link">Explore ASL <span aria-hidden="true">↗</span></span>
+        </a>
+        <a class="feature-card" href="./BritishTranslator.html">
+          <span class="feature-number">04 / BSL</span>
+          <span class="feature-icon" aria-hidden="true">Ab</span>
+          <h3>British Sign Language</h3>
+          <p>Explore fingerspelling with the British Sign Language alphabet.</p>
+          <span class="feature-link">Explore BSL <span aria-hidden="true">↗</span></span>
+        </a>
+      </div>
+      <p class="language-note"><span aria-hidden="true">✳</span> Sign languages are distinct, living languages—not word-for-word versions of spoken languages. These tools are learning aids, not a substitute for fluent signers or qualified interpreters. Video-to-text camera transcription requires an explicitly configured sign-language recognition model.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand footer-brand" href="./index.html"><span class="brand-mark" aria-hidden="true">h</span><span>hand<span class="brand-accent">in</span>hand</span></a>
+    <p>Made for more meaningful conversations.</p>
+    <a href="#main-content">Back to top ↑</a>
+  </footer>
+</body>
+</html>
