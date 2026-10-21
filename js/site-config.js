@@ -1,0 +1,1 @@
+window.HAND_IN_HAND_DICTIONARY_MODE = 'full';

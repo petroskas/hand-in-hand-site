@@ -99,18 +99,18 @@
   function requestGeneratedVideo(text, shouldPlay, requestId) {
     var provider = getZslVideoProvider();
     if (!provider) {
-      providerStatusNotice = 'No ZSL video provider is configured; using the current photo and fingerspelling sequence.';
+      providerStatusNotice = 'No ZSL video provider is configured; using the available fingerspelling sequence.';
       return false;
     }
 
     if (!supportsZsl(provider)) {
-      providerStatusNotice = 'The configured provider does not declare ZSL support; using the current photo and fingerspelling sequence.';
+      providerStatusNotice = 'The configured provider does not declare ZSL support; using the available fingerspelling sequence.';
       setStatus(providerStatusNotice);
       return true;
     }
 
     providerStatusNotice = '';
-    setStatus('Checking the configured ZSL video provider. Dictionary-photo and fingerspelling fallback remains available.');
+    setStatus('Checking the configured ZSL video provider. Fingerspelling fallback remains available.');
     Promise.resolve().then(function () {
       return provider.generateVideo({ text: text, language: 'zsl' });
     }).then(function (result) {
@@ -128,7 +128,7 @@
       }
       console.error('ZSL sign-video provider failed:', error);
       providerStatusNotice = (error.message || 'The ZSL sign-video provider failed.') +
-        ' Showing the available dictionary-photo and fingerspelling sequence instead.';
+        ' Showing the available fingerspelling sequence instead.';
       setStatus(providerStatusNotice);
     });
     return true;
@@ -166,7 +166,7 @@
     referenceImage.classList.add('frame-enter');
     referenceImage.alt = frame.alt;
     referenceImage.onerror = function () {
-      setStatus('A sign reference image could not be loaded. Check that the dictionary image files are deployed with the site.');
+      setStatus('A sign reference image could not be loaded. Check that its image file is deployed with the site.');
     };
     referenceImage.src = frame.image;
     frameWord.textContent = frame.word;
@@ -253,7 +253,7 @@
       if (dictionaryResults.querySelector('.results-message.error')) {
         setStatus('The sign dictionaries could not be loaded. Check the local dictionary index files and try again.');
       } else if (dictionaryResults.querySelector('.results-message')) {
-        setStatus('Looking up dictionary signs and preparing the animation…');
+        setStatus('Looking up sign references and preparing the animation…');
       } else if (dictionaryResults.querySelector('.results-empty')) {
         setStatus('Enter a word or phrase to prepare its sign sequence.');
       } else if (!dictionaryResults.querySelector('.results-message')) {
@@ -265,7 +265,7 @@
     frames = nextFrames;
     setPlaying(false);
     showFrame(0);
-    setStatus(frames.length + ' sign frame' + (frames.length === 1 ? '' : 's') + ' ready. ZSL dictionary images are preferred; missing words use the existing ASL fingerspelling fallback.' +
+    setStatus(frames.length + ' sign frame' + (frames.length === 1 ? '' : 's') + ' ready. Available dictionary references are preferred; missing words use ASL fingerspelling.' +
       (providerStatusNotice ? ' ' + providerStatusNotice : ''));
     if (autoPlayWhenReady) {
       autoPlayWhenReady = false;
@@ -292,7 +292,7 @@
     dictionaryForm.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
     var hasProvider = requestGeneratedVideo(text, autoPlayWhenReady, providerRequestId);
     if (!hasProvider) {
-      setStatus('Preparing the existing dictionary-image and fingerspelling sequence. ' + providerStatusNotice);
+      setStatus('Preparing the available sign-reference and fingerspelling sequence. ' + providerStatusNotice);
     }
   }
 

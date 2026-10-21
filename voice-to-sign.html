@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="./css/home.css">
   <link rel="stylesheet" href="./css/dictionary.css">
   <link rel="stylesheet" href="./css/voice-to-sign.css">
+  <script src="./js/site-config.js" defer></script>
   <script src="./js/dictionary-index.js" defer></script>
   <script src="./js/pdf-sign-index.js" defer></script>
   <script src="./js/joy-sign-index.js" defer></script>
@@ -37,7 +38,7 @@
     <section class="voice-heading">
       <p class="eyebrow">A visual signing guide</p>
       <h1>Turn words into <span>signs.</span></h1>
-      <p>Type a phrase or use your microphone. Play a word-by-word visual sequence with ZSL dictionary references, ASL illustrations where available, and fingerspelling when neither dictionary has a match.</p>
+      <p>The hosted version sequences ASL alphabet fingerspelling for typed or spoken phrases. Use the PDF references from the home page for full ZSL and ASL dictionary entries.</p>
     </section>
 
     <section class="voice-workspace" aria-label="Voice to sign player">
@@ -63,7 +64,7 @@
             </div>
             <figcaption>
               <span id="frame-word">Ready to play</span>
-              <small id="frame-source">Dictionary photos and letter handshapes are visual references.</small>
+              <small id="frame-source">ASL alphabet handshapes spell words; they are not ZSL signs.</small>
             </figcaption>
           </figure>
         </div>
@@ -84,7 +85,7 @@
       </div>
     </section>
 
-    <p class="voice-disclaimer"><strong>Learning aid:</strong> The player advances through actual images from the available sign references; it does not create continuous human signing video. Missing words use sequential ASL alphabet handshape images. Sign languages are distinct, and fingerspelling is not a full sign-language translation.</p>
+    <p class="voice-disclaimer"><strong>Learning aid:</strong> The player sequences ASL alphabet handshape images to spell words; it does not create continuous human signing video or translate words into ZSL signs. Sign languages are distinct, and fingerspelling is not a full sign-language translation.</p>
 
     <form id="dictionary-lookup" class="dictionary-source-results" data-dictionary-search data-search-input="#dictionary-query" data-results-selector="#dictionary-results" data-search-delay="80" data-split-words="true" data-asl-fallback="true" aria-hidden="true">
       <input id="dictionary-query" type="search">

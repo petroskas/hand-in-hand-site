@@ -8,9 +8,9 @@ Serve the project folder from any static web server or hosting service, then ope
 
 ### Publish with GitHub Pages
 
-The repository includes a GitHub Actions workflow for publishing the static site. Push this project to a GitHub repository on the `main` branch, then select **Settings → Pages → Build and deployment → GitHub Actions**. The workflow publishes the site on each push to `main`; the public URL will be `https://<username>.github.io/<repository>/`. Camera and microphone features require HTTPS, which GitHub Pages provides.
+The repository includes a GitHub Actions workflow for publishing the static site. Push this project to a GitHub repository on the `main` branch, then select **Settings → Pages → Build and deployment → GitHub Actions**. The workflow publishes the site on each push to `main`; the public URL will be `https://<username>.github.io/<repository>/`. Camera and microphone features require HTTPS, which GitHub Pages provides. Confirm that the Pages URL loads successfully from your device and network before sharing it.
 
-The workflow publishes the HTML pages and the `css/`, `images/`, and `js/` folders, plus only the ZSL and American Sign Language PDF references from `dictionary/`. It deliberately excludes the dictionary photo snippets, assignment documents, shortcut, and demo ZIP. Since the photo snippets are not deployed, word-photo matches that rely on those images may use the existing fingerspelling fallback.
+The workflow publishes the HTML pages and the `css/`, `images/`, and `js/` folders, plus only the ZSL and American Sign Language PDF references from `dictionary/`. It deliberately excludes the dictionary photo snippets, assignment documents, shortcut, and demo ZIP. The hosted version advertises the PDFs and uses ASL alphabet images only for fingerspelling; it does not claim that those handshapes are ZSL signs. The deployment workflow checks that the dictionary folder contains exactly the two PDFs before publishing.
 
 ## What is included
 

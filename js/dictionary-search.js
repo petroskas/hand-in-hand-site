@@ -27,11 +27,12 @@
   }
 
   function loadDictionary() {
+    var pdfOnlyDeployment = window.HAND_IN_HAND_DICTIONARY_MODE === 'pdf-only';
     var filenames = window.SIGN_DICTIONARY_FILES;
     if (!Array.isArray(filenames)) {
       throw new Error('The sign dictionary index could not be loaded. Keep js/dictionary-index.js beside the translator files.');
     }
-    var pngEntries = filenames.map(function (filename) {
+    var pngEntries = (pdfOnlyDeployment ? [] : filenames).map(function (filename) {
       var word = filename.replace(/\.png$/i, '').replace(/\s+\(\d+\)$/, '');
       return {
         word: word,
@@ -49,7 +50,7 @@
     if (!Array.isArray(pdfEntries)) {
       throw new Error('The scanned PDF sign index could not be loaded. Keep js/pdf-sign-index.js beside the translator files.');
     }
-    return pngEntries.concat(pdfEntries.map(function (entry) {
+    return pngEntries.concat((pdfOnlyDeployment ? [] : pdfEntries).map(function (entry) {
       var labels = getWordLabels(entry.word, false);
       return {
         word: labels[0],
@@ -67,7 +68,7 @@
       if (!Array.isArray(joyEntries)) {
         throw new Error('The Joy of Signing page index could not be loaded. Keep js/joy-sign-index.js beside the translator files.');
       }
-      return joyEntries.map(function (entry) {
+      return (pdfOnlyDeployment ? [] : joyEntries).map(function (entry) {
         var labels = getWordLabels(entry.word, true);
         return {
           word: labels[0],
@@ -328,7 +329,10 @@
       addHeading(container, 'Signs in the order entered');
     }
     if (hasFallback) {
-      addMessage(container, 'No ZSL or ASL dictionary illustration was found for some words. The images below show ASL fingerspelling; they do not represent ZSL signs.', 'results-message');
+      addMessage(container, window.HAND_IN_HAND_DICTIONARY_MODE === 'pdf-only'
+        ? 'This online site omits dictionary photo snippets. The images below show ASL fingerspelling only, not ZSL signs; use the linked PDF references for dictionary entries.'
+        : 'No ZSL or ASL dictionary illustration was found for some words. The images below show ASL fingerspelling; they do not represent ZSL signs.',
+      'results-message');
     }
     if (hasAslSource) {
       addMessage(container, 'No exact ZSL sign was found for some words. ASL sign images from The Joy of Signing are shown for those words; they are not ZSL signs.', 'results-message');
@@ -420,7 +424,13 @@
       addMessage(container, 'No sign photo found for "' + query + '". Try another word or browse the full dictionary PDF.');
     }
     if (useAslFallback && fallbackTerms.length) {
-      addAslFallback(container, fallbackTerms);
+      if (window.HAND_IN_HAND_DICTIONARY_MODE === 'pdf-only') {
+        addHeading(container, 'ASL fingerspelling only');
+        addMessage(container, 'This online site omits dictionary photo snippets. The images below show ASL fingerspelling only, not ZSL signs; use the linked PDF references for dictionary entries.', 'results-message');
+        addAslFallback(container, fallbackTerms, false);
+      } else {
+        addAslFallback(container, fallbackTerms);
+      }
     }
     if (query.length > 250) {
       addMessage(container, 'Showing matching words from the first part of your text. Search a shorter passage to look up the rest.');

@@ -32,8 +32,15 @@ jobs:
           mkdir -p _site
           cp index.html AmericanTranslator.html BritishTranslator.html videototext.html voice-to-sign.html ZimbabweanTranslator.html _site/
           cp -R css images js _site/
+          printf "%s\n" "window.HAND_IN_HAND_DICTIONARY_MODE = 'pdf-only';" > _site/js/site-config.js
           mkdir -p _site/dictionary
           cp "dictionary/ZSL.pdf.pdf" "dictionary/The Joy of Signing_ A Dictionary of American Signs ( PDFDrive.com ).pdf" _site/dictionary/
+
+      - name: Verify published dictionary assets
+        run: |
+          test "$(find _site/dictionary -maxdepth 1 -type f -name '*.pdf' | wc -l)" -eq 2
+          test "$(find _site/dictionary -maxdepth 1 -type f ! -name '*.pdf' | wc -l)" -eq 0
+          test "$(grep -R -l 'HAND_IN_HAND_DICTIONARY_MODE' _site/js/site-config.js | wc -l)" -eq 1
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

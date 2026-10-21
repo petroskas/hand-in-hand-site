@@ -163,7 +163,11 @@ h1, h2, h3, p { margin-top: 0; }
   background: rgba(245, 240, 226, .94);
 }
 
-.hero-art img { position: relative; z-index: 2; width: 72%; height: 62%; transform: translateY(-12px); object-fit: contain; mix-blend-mode: multiply; }
+.art-reference-cards { position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; gap: 14px; transform: translateY(-8px); }
+.art-reference-card { display: grid; width: 112px; height: 150px; align-content: center; justify-items: center; gap: 9px; border: 1px solid rgba(30, 73, 64, .16); border-radius: 8px; background: rgba(255, 255, 255, .83); box-shadow: 0 14px 28px rgba(30, 50, 40, .1); }
+.art-reference-card:last-child { transform: translateY(18px); }
+.art-reference-card strong { color: var(--forest); font-family: Manrope, "Segoe UI", sans-serif; font-size: 36px; letter-spacing: -2px; }
+.art-reference-card small { color: var(--muted); font-size: 10px; }
 .art-orbit { position: absolute; border: 1px solid rgba(30, 73, 64, .12); border-radius: 50%; }
 .orbit-one { width: 330px; height: 330px; }
 .orbit-two { width: 265px; height: 265px; }
@@ -232,7 +236,7 @@ h1, h2, h3, p { margin-top: 0; }
   .hero { width: calc(100% - 24px); min-height: auto; padding: 44px 25px 28px; grid-template-columns: 1fr; gap: 30px; }
   .hero h1 { font-size: clamp(44px, 12vw, 62px); letter-spacing: -3px; }
   .hero-art { width: min(100%, 330px); height: 310px; justify-self: center; }
-  .hero-art img { height: 53%; transform: translateY(-24px); }
+  .art-reference-cards { transform: translateY(-18px) scale(.9); }
   .art-caption { bottom: 4px; }
   .hero-decoration { display: none; }
   .dictionary-section, .language-section { width: calc(100% - 40px); padding: 72px 0; }

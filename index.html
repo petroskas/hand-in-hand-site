@@ -3,13 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Explore Zimbabwean Sign Language, find signs in the photo dictionary, and practise inclusive communication.">
+  <meta name="description" content="Explore Zimbabwean Sign Language and American Sign Language PDF references, and practise fingerspelling.">
   <meta name="theme-color" content="#17374c">
   <title>Hand in Hand — Sign language, made visible</title>
   <link rel="stylesheet" href="./css/home.css">
   <link rel="stylesheet" href="./css/dictionary.css">
+  <script src="./js/site-config.js" defer></script>
   <script src="./js/dictionary-index.js" defer></script>
   <script src="./js/pdf-sign-index.js" defer></script>
+  <script src="./js/joy-sign-index.js" defer></script>
   <script src="./js/dictionary-search.js" defer></script>
 </head>
 <body class="home-page">
@@ -36,19 +38,22 @@
       <div class="hero-copy">
         <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> Everyone deserves to be understood</p>
         <h1>Words are only<br>the <span>beginning.</span></h1>
-        <p class="hero-intro">Discover sign languages, one sign at a time. Explore real dictionary images, practise with a text translator, and turn typed or spoken words into an animated signing guide.</p>
+        <p class="hero-intro">Explore Zimbabwean and American sign-language references, practise fingerspelling, and turn typed or spoken words into a visual learning guide.</p>
         <div class="hero-actions">
           <a class="button button-primary" href="./voice-to-sign.html">Try voice to sign <span aria-hidden="true">→</span></a>
           <a class="text-link" href="#dictionary">Find a sign <span aria-hidden="true">↓</span></a>
         </div>
         <div class="hero-note"><span aria-hidden="true">✳</span> A welcoming place to learn, practise, and connect.</div>
       </div>
-      <div class="hero-art" aria-label="A Zimbabwean Sign Language dictionary example">
+      <div class="hero-art" aria-label="Zimbabwean and American sign-language PDF references">
         <div class="art-orbit orbit-one" aria-hidden="true"></div>
         <div class="art-orbit orbit-two" aria-hidden="true"></div>
-        <div class="art-label"><span class="art-pulse" aria-hidden="true"></span> A SIGN TO SHARE</div>
-        <img src="./dictionary/help.PNG" alt="Zimbabwean Sign Language dictionary image for help">
-        <div class="art-caption"><span>Help</span><small>Zimbabwean Sign Language</small></div>
+        <div class="art-label"><span class="art-pulse" aria-hidden="true"></span> SIGN-LANGUAGE REFERENCES</div>
+        <div class="art-reference-cards" aria-hidden="true">
+          <span class="art-reference-card"><strong>ZSL</strong><small>Zimbabwean</small></span>
+          <span class="art-reference-card"><strong>ASL</strong><small>American</small></span>
+        </div>
+        <div class="art-caption"><span>Full PDF references</span><small>Explore signs and meanings</small></div>
         <span class="art-spark spark-one" aria-hidden="true">✳</span>
         <span class="art-spark spark-two" aria-hidden="true">✳</span>
       </div>
@@ -59,21 +64,25 @@
       <div class="section-heading">
         <div>
           <p class="eyebrow">Your everyday sign finder</p>
-          <h2 id="dictionary-title">Look up a word.<br><span>See the sign.</span></h2>
+          <h2 id="dictionary-title">Explore sign-language<br><span>references.</span></h2>
         </div>
-        <p class="section-description">Search the Zimbabwean Sign Language photo dictionary. Type a word or phrase to find its sign image.</p>
+        <p class="section-description">Browse the full Zimbabwean Sign Language and American Sign Language references. The hosted version does not include individual dictionary photo snippets.</p>
       </div>
-      <form class="dictionary-search" data-dictionary-search data-search-input="#dictionary-query">
+      <form class="dictionary-search" data-dictionary-search data-search-input="#dictionary-query" data-asl-fallback="true">
         <label class="visually-hidden" for="dictionary-query">Word or phrase to look up</label>
         <span class="search-icon" aria-hidden="true">⌕</span>
-        <input id="dictionary-query" type="search" maxlength="250" placeholder="Try “hello”, “water” or “thank you”" autocomplete="off">
-        <button class="button button-primary" type="submit">Find sign <span aria-hidden="true">→</span></button>
+        <input id="dictionary-query" type="search" maxlength="250" placeholder="Spell a word with ASL handshapes" autocomplete="off">
+        <button class="button button-primary" type="submit">Spell word <span aria-hidden="true">→</span></button>
       </form>
-      <p class="search-hint">A word is enough to get started. No account needed.</p>
+      <p class="search-hint">The hosted version shows ASL alphabet fingerspelling, not ZSL signs. Use the full PDFs below for dictionary entries.</p>
       <div class="dictionary-results" data-dictionary-results role="region" aria-label="Dictionary search results" aria-live="polite" aria-atomic="true">
-        <p class="results-empty">Your matching sign images will appear here.</p>
+        <p class="results-empty">Type a word to see its ASL fingerspelling. For ZSL entries, browse the PDF reference.</p>
       </div>
-      <p class="dictionary-source">Looking for the full reference? <a href="./dictionary/ZSL.pdf.pdf">Browse the Zimbabwean Sign Language dictionary PDF <span aria-hidden="true">↗</span></a></p>
+      <p class="dictionary-source">Full references:
+        <a href="./dictionary/ZSL.pdf.pdf">Zimbabwean Sign Language (ZSL) PDF <span aria-hidden="true">↗</span></a>
+        ·
+        <a href="./dictionary/The%20Joy%20of%20Signing_%20A%20Dictionary%20of%20American%20Signs%20(%20PDFDrive.com%20).pdf">American Sign Language (ASL) PDF <span aria-hidden="true">↗</span></a>
+      </p>
     </section>
 
     <section class="language-section" id="languages" aria-labelledby="languages-title">
@@ -103,7 +112,7 @@
           <span class="feature-number">02 / ZSL</span>
           <span class="feature-icon" aria-hidden="true">↔</span>
           <h3>Zimbabwean Sign Language</h3>
-          <p>Type or speak English, then look up word-level photos from the Zimbabwean Sign Language dictionary.</p>
+          <p>Type or speak English and practise ASL fingerspelling. Browse the ZSL PDF for Zimbabwean Sign Language entries.</p>
           <span class="feature-link">Open translator <span aria-hidden="true">↗</span></span>
         </a>
         <a class="feature-card" href="./AmericanTranslator.html">
