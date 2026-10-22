@@ -34,18 +34,18 @@
   <div class="main-title">
     <p style="margin:0 0 14px;"><a href="./index.html" class="switchbutton" style="width:auto;font-size:14px;">← Home</a></p>
     <h1 style='font-size:clamp(30px, 5vw, 50px);'>Zimbabwean Sign Language</h1>
-    <h2 style="font-size: 18px;" class="subtitle">Type or speak English to practise ASL fingerspelling. Browse the full ZSL and ASL PDFs from the home page.</h2>
+    <h2 style="font-size: 18px;" class="subtitle">Type or speak English to see ZSL sign photos and fingerspell words with no matching photo.</h2>
       <div style="text-align:center">
         <h3 class="no-browser-support">Live speech recognition is not supported in this browser. You can still type to find a sign.</h3>
         <a href="./ZimbabweanTranslator.html" class="switchbutton">Zimbabwean</a>
-        <a href="./AmericanTranslator.html" class="switchbutton">American</a>
+        <a href="./AmericanTranslator.html" class="switchbutton">More signs</a>
         <a href="./BritishTranslator.html" class="switchbutton">British</a>
       <br/>
         <button type="button" id="random-sentence" class="random-button">Random Sentence</button>
       </div>
     </div>
     <div class="translate-container">
-  <p id="recording-instructions" role="status" aria-live="polite" aria-atomic="true">Select <strong>Record</strong> and allow microphone access. Words and available sign references will appear while you speak.</p>
+  <p id="recording-instructions" role="status" aria-live="polite" aria-atomic="true">Select <strong>Record</strong> and allow microphone access. Matching sign photos and ZSL fingerspelling will appear while you speak.</p>
     <div class="halving-div-left">
       <div class="transdiv english box-shadow-1" style="position: relative;">
             <button type="button" id="pause-record-btn" title="Pause voice input" class="recordbutton" disabled>Pause</button>
@@ -55,61 +55,28 @@
     </div>
     <div class="halving-div-right">
       <div class="transdiv ghetto box-shadow-1" style="position: relative;">
-        <textarea style="background-color: white; font-family: Arial;  " id="ghetto-text" placeholder="Alphabet spelling preview (ASL image set)..."></textarea>
+        <textarea style="background-color: white; font-family: Arial;  " id="ghetto-text" placeholder="Sign photos or ZSL fingerspelling..."></textarea>
         <div id="flags" class="alphabet-preview" role="region" aria-label="Fingerspelled alphabet preview"></div>
-        <div id="dictionary-sign-results" class="dictionary-inline-results" data-dictionary-results role="region" aria-label="Sign references and fingerspelling" aria-live="polite" aria-atomic="true">
-          <p class="results-empty">ASL fingerspelling will appear here as you type or speak; use the PDF for ZSL dictionary entries.</p>
+        <div id="dictionary-sign-results" class="dictionary-inline-results" data-dictionary-results role="region" aria-label="Sign photos and ZSL fingerspelling" aria-live="polite" aria-atomic="true">
+          <p class="results-empty">Matching sign photos and ZSL fingerspelling will appear here.</p>
         </div>
       </div>
     </div>
     <div style="clear:both"></div>
   </div>
   <section class="dictionary-lookup" aria-labelledby="zsl-dictionary-heading">
-    <h2 id="zsl-dictionary-heading">Practise fingerspelling</h2>
-    <p>The hosted translator shows ASL fingerspelling, not ZSL signs. Browse the full references:
-      <a href="./dictionary/ZSL.pdf.pdf">ZSL PDF</a> ·
-      <a href="./dictionary/The%20Joy%20of%20Signing_%20A%20Dictionary%20of%20American%20Signs%20(%20PDFDrive.com%20).pdf">ASL PDF</a>.
-    </p>
-    <form data-dictionary-search data-search-input="#english-text" data-results-selector="#dictionary-sign-results" data-search-delay="80" data-split-words="true" data-asl-fallback="true" aria-label="Find typed words in the Zimbabwean Sign Language dictionary">
-      <button type="submit">Show fingerspelling for typed words</button>
+    <h2 id="zsl-dictionary-heading">Find a Zimbabwean sign</h2>
+    <p>ZSL photos are shown first. Supplementary sign photos fill gaps; if neither index has a match, the word is shown in ZSL fingerspelling.</p>
+    <form data-dictionary-search data-search-input="#english-text" data-results-selector="#dictionary-sign-results" data-search-delay="80" data-split-words="true" data-fingerspelling-fallback="true" aria-label="Find typed words in the Zimbabwean Sign Language dictionary">
+      <button type="submit">Find sign photos</button>
     </form>
-    <p class="dictionary-attribution">ASL fingerspelling is a learning aid and is not a ZSL sign.</p>
+    <p class="dictionary-attribution">ZSL fingerspelling is used only when neither sign-photo index has the requested word.</p>
   </section>
   <script>
     var reverseIsDisabled = false;
     $("#ghetto-text").hide();
-    $('body').append("<div id='preload_flags' style='display:none;'></div>")
-
-    var alphanum = "abcdefghijklmnopqrstuvwxyz0123456789";
-
-    for (var i = 0; i < alphanum.length; i++) {
-      var letterImage = alphanum[i] === "g" ? "G" : alphanum[i];
-      $("#preload_flags").append("<img src='./images/ASL_signs/" + letterImage + ".png' />");
-    }
-
-    $("#preload_flags").append("<img src='./images/ASL_signs/_space.png' />");
-
     function forward(text) {
       $("#flags").html("");
-
-      var normalizedText = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-      for (var i = 0; i < normalizedText.length; i++) {
-        var character = normalizedText[i].toLowerCase();
-        if (/[a-z0-9]/.test(character)) {
-          var letterImage = character === "g" ? "G" : character;
-          var image = $("<img>", {
-            src: "./images/ASL_signs/" + letterImage + ".png",
-            alt: "ASL letter for: " + character
-          }).css({ "max-width": "80px", "max-height": "80px", margin: "1%" });
-          $("#flags").append(image);
-        } else if (/[\s]/.test(character)) {
-          var spaceImage = $("<img>", {
-            src: "./images/ASL_signs/_space.png",
-            alt: "space / pause"
-          }).css({ "max-width": "80px", "max-height": "80px", margin: "0 1%" });
-          $("#flags").append(spaceImage);
-        }
-      }
       return "";
     }
 

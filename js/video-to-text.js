@@ -259,7 +259,7 @@
     } else {
       confidence.textContent = '';
     }
-    setCameraStatus('Recognized ' + languageSelect.options[languageSelect.selectedIndex].text + '. Review the transcript; dictionary references update automatically.');
+    setCameraStatus('Recognized ' + languageSelect.options[languageSelect.selectedIndex].text + '. Review the transcript; matching sign photos update automatically.');
   }
 
   function stopRecognitionLoop() {
@@ -277,7 +277,7 @@
     if (!provider) {
       stopRecognitionLoop();
       setCameraStatus('Camera is on, but no compatible ' + languageSelect.value.toUpperCase() +
-        ' sign-recognition model is configured. The camera will not guess signs; you can type text below to search the dictionary.');
+        ' sign-recognition model is configured. The camera will not guess signs; you can type text below to see sign photos.');
       return;
     }
 
@@ -355,7 +355,7 @@
         recognizeNextFrame();
       } else {
         setCameraStatus('Camera preview is on, but no compatible ' + languageSelect.value.toUpperCase() +
-          ' sign-recognition model is configured. No signs will be guessed; manual text and dictionary lookup are available.');
+          ' sign-recognition model is configured. No signs will be guessed; manual text and sign-photo lookup are available.');
       }
       updateSampleControls();
     } catch (error) {
@@ -413,7 +413,7 @@
     dictionaryResults.replaceChildren();
     var empty = document.createElement('p');
     empty.className = 'results-empty';
-    empty.textContent = 'Sign references for recognized words will appear here.';
+    empty.textContent = 'Sign photos for recognized words will appear here.';
     dictionaryResults.appendChild(empty);
   });
 

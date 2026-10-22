@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Explore Zimbabwean Sign Language and American Sign Language PDF references and practise fingerspelling.">
+  <meta name="description" content="Find Zimbabwean Sign Language sign photos, supplementary sign images, and ZSL fingerspelling for unmatched words.">
   <meta name="theme-color" content="#17374c">
   <title>Hand in Hand — Sign language, made visible</title>
   <link rel="stylesheet" href="./css/home.css">
@@ -25,9 +25,9 @@
       <a href="#dictionary">Dictionary</a>
       <a href="#languages">Explore</a>
       <a class="nav-cta" href="./videototext.html">Video to text <span aria-hidden="true">↗</span></a>
-      <div class="language-nav" aria-label="Sign language translators">
+      <div class="language-nav" aria-label="Sign language tools">
         <a href="./ZimbabweanTranslator.html" aria-label="Zimbabwean Sign Language">ZSL</a>
-        <a href="./AmericanTranslator.html" aria-label="American Sign Language">ASL</a>
+        <a href="./AmericanTranslator.html" aria-label="Supplementary sign photos">More signs</a>
         <a href="./BritishTranslator.html" aria-label="British Sign Language">BSL</a>
       </div>
     </nav>
@@ -45,13 +45,12 @@
         </div>
         <div class="hero-note"><span aria-hidden="true">✳</span> A welcoming place to learn, practise, and connect.</div>
       </div>
-      <div class="hero-art" aria-label="Zimbabwean and American sign-language PDF references">
+      <div class="hero-art" aria-label="Zimbabwean Sign Language reference">
         <div class="art-orbit orbit-one" aria-hidden="true"></div>
         <div class="art-orbit orbit-two" aria-hidden="true"></div>
         <div class="art-label"><span class="art-pulse" aria-hidden="true"></span> A SIGN TO SHARE</div>
         <div class="art-reference-cards" aria-hidden="true">
           <span class="art-reference-card"><strong>ZSL</strong><small>Zimbabwean signs</small></span>
-          <span class="art-reference-card"><strong>ASL</strong><small>More references</small></span>
         </div>
         <div class="art-caption"><span>One word at a time</span><small>Signs for everyday communication</small></div>
         <span class="art-spark spark-one" aria-hidden="true">✳</span>
@@ -66,23 +65,19 @@
           <p class="eyebrow">Your everyday sign finder</p>
           <h2 id="dictionary-title">Look up a word.<br><span>See the sign.</span></h2>
         </div>
-        <p class="section-description">Browse the full Zimbabwean Sign Language and American Sign Language references. The hosted version does not include individual dictionary photo snippets.</p>
+        <p class="section-description">ZSL sign photos come first. Supplementary sign photos fill gaps, and unmatched words are shown with ZSL fingerspelling.</p>
       </div>
-      <form class="dictionary-search" data-dictionary-search data-search-input="#dictionary-query" data-asl-fallback="true">
+      <form class="dictionary-search" data-dictionary-search data-search-input="#dictionary-query" data-split-words="true" data-fingerspelling-fallback="true">
         <label class="visually-hidden" for="dictionary-query">Word or phrase to look up</label>
         <span class="search-icon" aria-hidden="true">⌕</span>
-        <input id="dictionary-query" type="search" maxlength="250" placeholder="Spell a word with ASL handshapes" autocomplete="off">
-        <button class="button button-primary" type="submit">Spell word <span aria-hidden="true">→</span></button>
+        <input id="dictionary-query" type="search" maxlength="250" placeholder="Try “hello”, “water” or another word" autocomplete="off">
+        <button class="button button-primary" type="submit">Find entry <span aria-hidden="true">→</span></button>
       </form>
-      <p class="search-hint">The hosted version shows ASL alphabet fingerspelling, not ZSL signs. Use the full PDFs below for dictionary entries.</p>
+      <p class="search-hint">See a sign photo when one is available; otherwise, the word is shown letter by letter in ZSL fingerspelling.</p>
       <div class="dictionary-results" data-dictionary-results role="region" aria-label="Dictionary search results" aria-live="polite" aria-atomic="true">
-        <p class="results-empty">Type a word to see its ASL fingerspelling. For ZSL entries, browse the PDF reference.</p>
+        <p class="results-empty">Enter a word to see its sign photo.</p>
       </div>
-      <p class="dictionary-source">Full references:
-        <a href="./dictionary/ZSL.pdf.pdf">Zimbabwean Sign Language (ZSL) PDF <span aria-hidden="true">↗</span></a>
-        ·
-        <a href="./dictionary/The%20Joy%20of%20Signing_%20A%20Dictionary%20of%20American%20Signs%20(%20PDFDrive.com%20).pdf">American Sign Language (ASL) PDF <span aria-hidden="true">↗</span></a>
-      </p>
+      <p class="dictionary-source">Zimbabwean Sign Language photos are prioritized. Supplementary sign photos appear only when no ZSL photo matches.</p>
     </section>
 
     <section class="language-section" id="languages" aria-labelledby="languages-title">
@@ -91,36 +86,36 @@
           <p class="eyebrow">Choose your way in</p>
           <h2 id="languages-title">Explore. Practise.<br><span>Connect.</span></h2>
         </div>
-        <p class="section-description">Start with Zimbabwean Sign Language, or explore the other alphabet-based learning tools in this project.</p>
+        <p class="section-description">Start with Zimbabwean Sign Language, then explore the supplementary signs and other learning tools.</p>
       </div>
       <div class="feature-grid">
         <a class="feature-card" href="./videototext.html">
           <span class="feature-number">00 / CAMERA</span>
           <span class="feature-icon" aria-hidden="true">◎</span>
           <h3>Video to text</h3>
-          <p>Use a compatible sign-recognition model with your camera to transcribe signs, then find ZSL-first dictionary references.</p>
+          <p>Use a compatible sign-recognition model with your camera to transcribe signs, then view ZSL-first sign photos.</p>
           <span class="feature-link">Open camera tool <span aria-hidden="true">↗</span></span>
         </a>
         <a class="feature-card feature-primary" href="./voice-to-sign.html">
           <span class="feature-number">01 / VOICE</span>
           <span class="feature-icon" aria-hidden="true">▶</span>
           <h3>Voice to sign video</h3>
-          <p>Type or speak a phrase and play an animated signing guide, using dictionary references and fingerspelling when needed.</p>
+          <p>Type or speak a phrase and play sign-photo frames, using ZSL fingerspelling when no photo matches.</p>
           <span class="feature-link">Open sign player <span aria-hidden="true">↗</span></span>
         </a>
         <a class="feature-card feature-primary" href="./ZimbabweanTranslator.html">
           <span class="feature-number">02 / ZSL</span>
           <span class="feature-icon" aria-hidden="true">↔</span>
           <h3>Zimbabwean Sign Language</h3>
-          <p>Type or speak English to practise ASL fingerspelling, and browse the full ZSL and ASL PDF references.</p>
+          <p>Type or speak English to see ZSL sign photos and fingerspell words without a matching photo.</p>
           <span class="feature-link">Open translator <span aria-hidden="true">↗</span></span>
         </a>
         <a class="feature-card" href="./AmericanTranslator.html">
-          <span class="feature-number">03 / ASL</span>
+          <span class="feature-number">03 / EXTRA SIGNS</span>
           <span class="feature-icon" aria-hidden="true">Aa</span>
-          <h3>American Sign Language</h3>
-          <p>Practise spelling words with the American alphabet handshapes.</p>
-          <span class="feature-link">Explore ASL <span aria-hidden="true">↗</span></span>
+          <h3>Supplementary signs</h3>
+          <p>Search ZSL sign photos first, with supplementary sign photos for words not found in ZSL.</p>
+          <span class="feature-link">Explore more signs <span aria-hidden="true">↗</span></span>
         </a>
         <a class="feature-card" href="./BritishTranslator.html">
           <span class="feature-number">04 / BSL</span>

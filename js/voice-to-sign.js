@@ -90,7 +90,7 @@
           return;
         }
         console.error('Generated sign video could not play:', error);
-        useImageFallback('The generated ZSL video could not play. Switched back to the dictionary-photo and fingerspelling sequence.');
+        useImageFallback('The generated ZSL video could not play. Switched back to the sign-photo and ZSL-fingerspelling sequence.');
       });
     }
     setStatus('Showing a ZSL sign video from the configured signing provider.');
@@ -105,7 +105,7 @@
 
     if (!supportsZsl(provider)) {
       providerStatusNotice = '';
-      setStatus('Showing the available sign references and fingerspelling.');
+      setStatus('Showing the available sign photos and ZSL fingerspelling.');
       return true;
     }
 
@@ -128,7 +128,7 @@
       }
       console.error('ZSL sign-video provider failed:', error);
       providerStatusNotice = (error.message || 'The ZSL sign-video provider failed.') +
-        ' Showing the available fingerspelling sequence instead.';
+        ' Showing the available ZSL fingerspelling sequence instead.';
       setStatus(providerStatusNotice);
     });
     return true;
@@ -166,12 +166,12 @@
     referenceImage.classList.add('frame-enter');
     referenceImage.alt = frame.alt;
     referenceImage.onerror = function () {
-      setStatus('A sign reference image could not be loaded. Check that its image file is deployed with the site.');
+      setStatus('A sign photo could not be loaded. Check that its image file is deployed with the site.');
     };
     referenceImage.src = frame.image;
     frameWord.textContent = frame.word;
     frameSource.textContent = frame.source;
-    frameKind.textContent = frame.kind === 'letter' ? 'ASL fingerspelling' : 'Dictionary sign reference';
+    frameKind.textContent = frame.kind === 'letter' ? 'ZSL fingerspelling' : 'Sign photo';
     frameKind.hidden = false;
     frameCount.textContent = (currentFrame + 1) + ' / ' + frames.length;
     progress.style.width = ((currentFrame + 1) / frames.length * 100) + '%';
@@ -182,16 +182,16 @@
 
   function collectFrames() {
     var nextFrames = [];
-    dictionaryResults.querySelectorAll('.dictionary-card, .asl-fallback-card').forEach(function (card) {
-      if (card.classList.contains('asl-fallback-card')) {
+    dictionaryResults.querySelectorAll('.dictionary-card, .fingerspelling-fallback-card').forEach(function (card) {
+      if (card.classList.contains('fingerspelling-fallback-card')) {
         var title = card.querySelector('h4');
         var word = title ? title.textContent.trim() : 'Fingerspelling';
-        card.querySelectorAll('.asl-spelling img').forEach(function (image) {
+        card.querySelectorAll('.fingerspelling-spelling img').forEach(function (image) {
           nextFrames.push({
             image: image.getAttribute('src'),
             alt: image.alt,
-            word: image.alt.replace(/^ASL letter\s*/i, '').toUpperCase(),
-            source: 'ASL alphabet handshape for “' + word + '”',
+            word: image.alt.replace(/^ZSL fingerspelling handshape for\s*/i, '').toUpperCase(),
+            source: 'ZSL fingerspelling for “' + word + '”',
             kind: 'letter',
             duration: 1050
           });
@@ -207,7 +207,7 @@
           image: image.getAttribute('src'),
           alt: image.alt,
           word: title.textContent.trim(),
-          source: source ? source.textContent.trim() : 'Dictionary sign reference',
+          source: source ? source.textContent.trim() : 'Dictionary sign photo',
           kind: 'sign',
           duration: 2600
         });
@@ -235,7 +235,7 @@
     emptyMessage.hidden = false;
     frameKind.hidden = true;
     frameWord.textContent = 'Ready to play';
-    frameSource.textContent = 'Dictionary photos and letter handshapes are visual references.';
+    frameSource.textContent = 'Sign photos and ZSL handshapes are visual learning aids.';
     frameCount.textContent = '0 / 0';
     progress.style.width = '0%';
     playButton.disabled = true;
@@ -252,12 +252,14 @@
       clearSequence();
       if (dictionaryResults.querySelector('.results-message.error')) {
         setStatus('The sign dictionaries could not be loaded. Check the local dictionary index files and try again.');
+      } else if (dictionaryResults.querySelector('.fingerspelling-fallback-card')) {
+        setStatus('No sign photo was found in either index. The player can show the word with ZSL fingerspelling.');
       } else if (dictionaryResults.querySelector('.results-message')) {
-        setStatus('Looking up sign references and preparing the animation…');
+        setStatus('Looking up sign photos and preparing the animation…');
       } else if (dictionaryResults.querySelector('.results-empty')) {
         setStatus('Enter a word or phrase to prepare its sign sequence.');
       } else if (!dictionaryResults.querySelector('.results-message')) {
-        setStatus('Looking up sign references…');
+        setStatus('Looking up sign photos…');
       }
       return;
     }
@@ -265,7 +267,7 @@
     frames = nextFrames;
     setPlaying(false);
     showFrame(0);
-    setStatus(frames.length + ' sign frame' + (frames.length === 1 ? '' : 's') + ' ready. Dictionary photos and supplementary ASL references are shown in order.' +
+    setStatus(frames.length + ' visual frame' + (frames.length === 1 ? '' : 's') + ' ready.' +
       (providerStatusNotice ? ' ' + providerStatusNotice : ''));
     if (autoPlayWhenReady) {
       autoPlayWhenReady = false;
@@ -292,7 +294,7 @@
     dictionaryForm.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
     var hasProvider = requestGeneratedVideo(text, autoPlayWhenReady, providerRequestId);
     if (!hasProvider) {
-      setStatus('Preparing sign references and fingerspelling.');
+      setStatus('Preparing sign photos and ZSL fingerspelling.');
     }
   }
 
@@ -332,7 +334,7 @@
 
   new MutationObserver(refreshSequence).observe(dictionaryResults, { childList: true, subtree: true });
   generatedVideo.addEventListener('error', function () {
-    useImageFallback('The generated sign video could not be loaded. The existing dictionary-image and fingerspelling sequence remains available.');
+    useImageFallback('The generated sign video could not be loaded. The sign-photo and ZSL-fingerspelling sequence remains available.');
   });
 
   var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;

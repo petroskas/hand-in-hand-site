@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Type or speak English to play an animated sign-language learning guide with dictionary references and fingerspelling.">
+  <meta name="description" content="Type or speak English to view sign photos and ZSL fingerspelling in an animated learning guide.">
   <meta name="theme-color" content="#17374c">
   <title>Voice to sign video — Hand in Hand</title>
   <link rel="stylesheet" href="./css/home.css">
@@ -26,9 +26,9 @@
     <nav class="site-nav" aria-label="Main navigation">
       <a href="./index.html#dictionary">Dictionary</a>
       <a class="nav-cta" href="./ZimbabweanTranslator.html">Text translator <span aria-hidden="true">↗</span></a>
-      <div class="language-nav" aria-label="Sign language translators">
+      <div class="language-nav" aria-label="Sign language tools">
         <a href="./ZimbabweanTranslator.html" aria-label="Zimbabwean Sign Language">ZSL</a>
-        <a href="./AmericanTranslator.html" aria-label="American Sign Language">ASL</a>
+        <a href="./AmericanTranslator.html" aria-label="Supplementary sign photos">More signs</a>
         <a href="./BritishTranslator.html" aria-label="British Sign Language">BSL</a>
       </div>
     </nav>
@@ -38,7 +38,7 @@
     <section class="voice-heading">
       <p class="eyebrow">A visual signing guide</p>
       <h1>Turn words into <span>signs.</span></h1>
-      <p>Type or speak a phrase to practise an ordered sequence of ASL fingerspelling. This is not a fluent sign-language translation.</p>
+      <p>Type or speak a phrase to show sign photos when available and spell unmatched words with ZSL fingerspelling.</p>
     </section>
 
     <section class="voice-workspace" aria-label="Voice to sign player">
@@ -64,7 +64,7 @@
             </div>
             <figcaption>
               <span id="frame-word">Ready to play</span>
-              <small id="frame-source">ASL alphabet handshapes spell words; they are not ZSL signs.</small>
+              <small id="frame-source">Spelling aids are not dictionary signs.</small>
             </figcaption>
           </figure>
         </div>
@@ -85,9 +85,9 @@
       </div>
     </section>
 
-    <p class="voice-disclaimer"><strong>Learning aid:</strong> The player sequences ASL alphabet handshape images to spell words; it does not create continuous human signing video or translate words into ZSL signs. Sign languages are distinct, and fingerspelling is not a full sign-language translation.</p>
+    <p class="voice-disclaimer"><strong>Learning aid:</strong> The player shows ZSL sign photos first, supplementary sign photos when a ZSL match is missing, and ZSL fingerspelling when neither index has a match. It does not create continuous signing video.</p>
 
-    <form id="dictionary-lookup" class="dictionary-source-results" data-dictionary-search data-search-input="#dictionary-query" data-results-selector="#dictionary-results" data-search-delay="80" data-split-words="true" data-asl-fallback="true" aria-hidden="true">
+    <form id="dictionary-lookup" class="dictionary-source-results" data-dictionary-search data-search-input="#dictionary-query" data-results-selector="#dictionary-results" data-search-delay="80" data-split-words="true" data-fingerspelling-fallback="true" aria-hidden="true">
       <input id="dictionary-query" type="search">
       <button type="submit">Search dictionary</button>
     </form>

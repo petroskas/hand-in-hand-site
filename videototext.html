@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Use your device camera with a configured sign-language recognition model to transcribe signs and look up ZSL-first dictionary references.">
+  <meta name="description" content="Use your device camera with a configured ZSL recognition model, then view ZSL sign photos and fingerspelling.">
   <meta name="theme-color" content="#17374c">
   <title>Video to Text — Hand in Hand</title>
   <link rel="stylesheet" href="./css/home.css">
@@ -26,9 +26,9 @@
     <nav class="site-nav" aria-label="Main navigation">
       <a href="./index.html#languages">Explore</a>
       <a class="nav-cta" href="./voice-to-sign.html">Voice to sign <span aria-hidden="true">↗</span></a>
-      <div class="language-nav" aria-label="Sign language translators">
+      <div class="language-nav" aria-label="Sign language tools">
         <a href="./ZimbabweanTranslator.html" aria-label="Zimbabwean Sign Language">ZSL</a>
-        <a href="./AmericanTranslator.html" aria-label="American Sign Language">ASL</a>
+        <a href="./AmericanTranslator.html" aria-label="Supplementary sign photos">More signs</a>
         <a href="./BritishTranslator.html" aria-label="British Sign Language">BSL</a>
       </div>
     </nav>
@@ -38,7 +38,7 @@
     <section class="video-text-heading">
       <p class="eyebrow">Camera sign recognition</p>
       <h1>Video to <span>text.</span></h1>
-      <p>Allow camera access and sign in front of it. A compatible ZSL recognition model can transcribe signs into text; the hosted site shows ASL fingerspelling and links to full ZSL and ASL PDF references.</p>
+      <p>Allow camera access and sign in front of it. A compatible ZSL recognition model can transcribe signs into text. Recognized words show matching sign photos; unmatched words use ZSL fingerspelling.</p>
     </section>
 
     <section class="camera-workspace" aria-label="Camera sign recognition and dictionary lookup">
@@ -55,7 +55,6 @@
           <label for="recognition-language">Recognition language
             <select id="recognition-language">
               <option value="zsl" selected>Zimbabwean Sign Language (ZSL)</option>
-              <option value="asl">American Sign Language (ASL)</option>
             </select>
           </label>
           <div class="camera-buttons">
@@ -118,21 +117,21 @@
     <section class="detected-dictionary" aria-labelledby="detected-dictionary-title">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">Optional word references</p>
-          <h2 id="detected-dictionary-title">See the <span>sign photos.</span></h2>
+          <p class="eyebrow">Optional sign photos</p>
+          <h2 id="detected-dictionary-title">Look up <span>recognized words.</span></h2>
         </div>
-        <p class="section-description">Recognized text can be searched without changing the transcript. The hosted search shows ASL fingerspelling; use the PDF references for dictionary entries.</p>
+        <p class="section-description">Recognized text can be searched without changing the transcript. ZSL photos appear first, supplementary photos fill gaps, and unmatched words use ZSL fingerspelling.</p>
       </div>
-      <div id="camera-dictionary-results" class="dictionary-results" data-dictionary-results role="region" aria-label="Fingerspelling for recognized words" aria-live="polite" aria-atomic="true">
-        <p class="results-empty">Start a camera session with a recognition model, or enter text above to see ASL fingerspelling.</p>
+      <div id="camera-dictionary-results" class="dictionary-results" data-dictionary-results role="region" aria-label="Sign photos and fingerspelling for recognized words" aria-live="polite" aria-atomic="true">
+        <p class="results-empty">Start a camera session with a recognition model, or enter text above to see sign photos.</p>
       </div>
-      <form id="camera-dictionary-search" class="camera-dictionary-search" data-dictionary-search data-search-input="#camera-dictionary-query" data-results-selector="#camera-dictionary-results" data-search-delay="0" data-split-words="true" data-asl-fallback="true" aria-hidden="true">
+      <form id="camera-dictionary-search" class="camera-dictionary-search" data-dictionary-search data-search-input="#camera-dictionary-query" data-results-selector="#camera-dictionary-results" data-search-delay="0" data-split-words="true" data-fingerspelling-fallback="true" aria-hidden="true">
         <input id="camera-dictionary-query" type="search">
         <button type="submit">Search dictionary</button>
       </form>
     </section>
 
-    <p class="video-text-disclaimer"><strong>Accuracy note:</strong> Hand tracking by itself cannot translate sign language. Sign recognition needs a language-specific model trained on appropriate data, including movement and context. This page does not guess signs from hand shape; without a configured model it still supports manual text entry and dictionary lookup. ASL and ZSL are distinct languages.</p>
+    <p class="video-text-disclaimer"><strong>Accuracy note:</strong> Hand tracking by itself cannot translate sign language. Sign recognition needs a language-specific model trained on appropriate data, including movement and context. This page does not guess signs from hand shape; without a configured model it still supports manual text entry and dictionary lookup.</p>
   </main>
 
   <footer class="site-footer">

@@ -165,7 +165,7 @@ h1, h2, h3, p { margin-top: 0; }
 
 .art-reference-cards { position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; gap: 14px; transform: translateY(-8px); }
 .art-reference-card { display: grid; width: 112px; height: 150px; align-content: center; justify-items: center; gap: 9px; border: 1px solid rgba(30, 73, 64, .16); border-radius: 8px; background: rgba(255, 255, 255, .83); box-shadow: 0 14px 28px rgba(30, 50, 40, .1); }
-.art-reference-card:last-child { transform: translateY(18px); }
+.art-reference-card + .art-reference-card { transform: translateY(18px); }
 .art-reference-card strong { color: var(--forest); font-family: Manrope, "Segoe UI", sans-serif; font-size: 36px; letter-spacing: -2px; }
 .art-reference-card small { color: var(--muted); font-size: 10px; }
 .art-orbit { position: absolute; border: 1px solid rgba(30, 73, 64, .12); border-radius: 50%; }

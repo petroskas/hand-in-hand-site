@@ -32,15 +32,48 @@ jobs:
           mkdir -p _site
           cp index.html AmericanTranslator.html BritishTranslator.html videototext.html voice-to-sign.html ZimbabweanTranslator.html _site/
           cp -R css images js _site/
-          printf "%s\n" "window.HAND_IN_HAND_DICTIONARY_MODE = 'pdf-only';" > _site/js/site-config.js
+          printf "%s\n" "window.HAND_IN_HAND_DICTIONARY_MODE = 'snippets-only';" > _site/js/site-config.js
           mkdir -p _site/dictionary
-          cp "dictionary/ZSL.pdf.pdf" "dictionary/The Joy of Signing_ A Dictionary of American Signs ( PDFDrive.com ).pdf" _site/dictionary/
+          cp dictionary/*.PNG _site/dictionary/
+          cp -R dictionary/pdf-signs dictionary/joy-sign-snippets _site/dictionary/
 
       - name: Verify published dictionary assets
         run: |
-          test "$(find _site/dictionary -maxdepth 1 -type f -name '*.pdf' | wc -l)" -eq 2
-          test "$(find _site/dictionary -maxdepth 1 -type f ! -name '*.pdf' | wc -l)" -eq 0
-          test "$(grep -R -l 'HAND_IN_HAND_DICTIONARY_MODE' _site/js/site-config.js | wc -l)" -eq 1
+          grep -q "window.HAND_IN_HAND_DICTIONARY_MODE = 'snippets-only';" _site/js/site-config.js
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          site = Path("_site")
+          pdfs = [path for path in site.rglob("*") if path.is_file() and path.suffix.lower() == ".pdf"]
+          if pdfs:
+              raise SystemExit(f"PDFs must not be published: {pdfs[:5]}")
+          for page in site.rglob("*.html"):
+              if ".pdf" in page.read_text(encoding="utf-8").casefold():
+                  raise SystemExit(f"PDF links or references must not be published: {page}")
+
+          def read_index(path):
+              content = path.read_text(encoding="utf-8")
+              return json.loads(content.split("=", 1)[1].strip().rstrip(";"))
+
+          for filename in read_index(site / "js/dictionary-index.js"):
+              if not (site / "dictionary" / filename).is_file():
+                  raise SystemExit(f"Missing ZSL sign photo: {filename}")
+
+          for index_path in ("js/pdf-sign-index.js", "js/joy-sign-index.js"):
+              for entry in read_index(site / index_path):
+                  image = entry.get("image")
+                  if image is None:
+                      continue
+                  image = image.removeprefix("./")
+                  if not image or not (site / image).is_file():
+                      raise SystemExit(f"Missing indexed sign photo: {image}")
+
+          for letter in "abcdefghijklmnopqrstuvwxyz":
+              filename = "G.png" if letter == "g" else f"{letter}.png"
+              if not (site / "images/ZSL_signs" / filename).is_file():
+                  raise SystemExit(f"Missing ZSL fingerspelling image: {filename}")
+          PY
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

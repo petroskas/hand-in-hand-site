@@ -27,12 +27,11 @@
   }
 
   function loadDictionary() {
-    var pdfOnlyDeployment = window.HAND_IN_HAND_DICTIONARY_MODE === 'pdf-only';
     var filenames = window.SIGN_DICTIONARY_FILES;
     if (!Array.isArray(filenames)) {
       throw new Error('The sign dictionary index could not be loaded. Keep js/dictionary-index.js beside the translator files.');
     }
-    var pngEntries = (pdfOnlyDeployment ? [] : filenames).map(function (filename) {
+    var pngEntries = filenames.map(function (filename) {
       var word = filename.replace(/\.png$/i, '').replace(/\s+\(\d+\)$/, '');
       return {
         word: word,
@@ -46,11 +45,11 @@
     }).filter(function (entry) {
       return entry.normalized.length > 0;
     });
-    var pdfEntries = window.PDF_SIGN_DICTIONARY;
-    if (!Array.isArray(pdfEntries)) {
-      throw new Error('The scanned PDF sign index could not be loaded. Keep js/pdf-sign-index.js beside the translator files.');
+    var zslPhotoIndex = window.PDF_SIGN_DICTIONARY;
+    if (!Array.isArray(zslPhotoIndex)) {
+      throw new Error('The ZSL photo index could not be loaded. Keep js/pdf-sign-index.js beside the translator files.');
     }
-    return pngEntries.concat((pdfOnlyDeployment ? [] : pdfEntries).map(function (entry) {
+    var zslPhotoEntries = zslPhotoIndex.map(function (entry) {
       var labels = getWordLabels(entry.word, false);
       return {
         word: labels[0],
@@ -59,32 +58,30 @@
         filename: entry.image,
         normalized: normalize(labels[0]),
         image: entry.image,
-        source: 'zsl-pdf'
+        source: 'zsl-photo'
       };
     }).filter(function (entry) {
       return entry.normalized.length > 0;
-    })).concat((function () {
-      var joyEntries = window.JOY_SIGN_DICTIONARY;
-      if (!Array.isArray(joyEntries)) {
-        throw new Error('The Joy of Signing page index could not be loaded. Keep js/joy-sign-index.js beside the translator files.');
-      }
-      return (pdfOnlyDeployment ? [] : joyEntries).map(function (entry) {
-        var labels = getWordLabels(entry.word, true);
-        return {
-          word: labels[0],
-          meanings: labels.slice(1),
-          searchTerms: labels,
-          filename: entry.image,
-          normalized: normalize(labels[0]),
-          image: entry.image,
-          source: 'asl-snippet',
-          page: Number(entry.page)
-        };
-      }).filter(function (entry) {
-        return entry.normalized.length > 0 && typeof entry.image === 'string' &&
-          Number.isInteger(entry.page) && entry.page > 0;
-      });
-    }()));
+    });
+    var joyEntries = window.JOY_SIGN_DICTIONARY;
+    if (!Array.isArray(joyEntries)) {
+      throw new Error('The supplementary sign index could not be loaded. Keep js/joy-sign-index.js beside the translator files.');
+    }
+    var supplementaryEntries = joyEntries.map(function (entry) {
+      var labels = getWordLabels(entry.word, true);
+      return {
+        word: labels[0],
+        meanings: labels.slice(1),
+        searchTerms: labels,
+        filename: entry.image,
+        normalized: normalize(labels[0]),
+        image: entry.image,
+        source: 'supplementary-image'
+      };
+    }).filter(function (entry) {
+      return entry.normalized.length > 0 && typeof entry.image === 'string';
+    });
+    return pngEntries.concat(zslPhotoEntries, supplementaryEntries);
   }
 
   function addMessage(container, text, className) {
@@ -100,15 +97,16 @@
     var label = displayWord || item.word;
 
     var image = document.createElement('img');
-    card.className = 'dictionary-card' + (item.source === 'asl-snippet' ? ' dictionary-card-source-asl' : '');
-    image.alt = item.source === 'asl-snippet'
-      ? 'American Sign Language sign illustration for ' + label
-      : 'Zimbabwean Sign Language dictionary sign for ' + label;
+    var isSupplementary = item.source === 'supplementary-image';
+    card.className = 'dictionary-card' + (isSupplementary ? ' dictionary-card-source-supplementary' : '');
+    image.alt = isSupplementary
+      ? 'Supplementary sign photo for ' + label + ', not confirmed as Zimbabwean Sign Language'
+      : 'Zimbabwean Sign Language sign photo for ' + label;
     image.loading = 'lazy';
     image.addEventListener('error', function () {
       image.remove();
-      addMessage(card, 'Image could not be loaded. Showing fingerspelling.', 'results-message error');
-      addAslFallback(card, [label], false);
+      addMessage(card, 'Sign photo could not be loaded. Showing ZSL fingerspelling.', 'results-message error');
+      addFingerspellingFallback(card, [label], false);
     }, { once: true });
     image.src = item.image;
     card.appendChild(image);
@@ -116,12 +114,10 @@
     card.appendChild(title);
     var source = document.createElement('p');
     source.className = 'dictionary-card-source';
-    if (item.source === 'asl-snippet') {
-      source.textContent = 'ASL visual reference · The Joy of Signing, page ' + item.page;
+    if (isSupplementary) {
+      source.textContent = 'Supplementary sign photo · not confirmed as Zimbabwean Sign Language';
     } else {
-      source.textContent = item.source === 'zsl-pdf'
-        ? 'Source: scanned Zimbabwean Sign Language dictionary.'
-        : 'Source: Zimbabwean Sign Language image dictionary.';
+      source.textContent = 'Zimbabwean Sign Language sign photo';
     }
     card.appendChild(source);
     var meaningsToShow = item.meanings.slice();
@@ -145,9 +141,13 @@
     container.appendChild(heading);
   }
 
+  function isZslEntry(entry) {
+    return entry.source === 'zsl-image' || entry.source === 'zsl-photo';
+  }
+
   function preferZslEntries(entries) {
     var zslEntries = entries.filter(function (entry) {
-      return entry.source !== 'asl-snippet';
+      return isZslEntry(entry);
     });
     if (!zslEntries.length) {
       return entries;
@@ -177,7 +177,7 @@
     var matchedTarget = target;
     for (var targetIndex = 0; targetIndex < targets.length; targetIndex += 1) {
       matches = dictionary.filter(function (entry) {
-        return entry.source !== 'asl-snippet' && entry.searchTerms.some(function (label) {
+        return isZslEntry(entry) && entry.searchTerms.some(function (label) {
           return tokenize(label).some(function (labelWord) {
             return normalize(labelWord) === targets[targetIndex];
           });
@@ -205,9 +205,9 @@
     }));
   }
 
-  function addAslFallback(container, terms, includeHeading) {
+  function addFingerspellingFallback(container, terms, includeHeading) {
     if (includeHeading !== false) {
-      addHeading(container, 'ASL fingerspelling fallback');
+      addHeading(container, 'ZSL fingerspelling');
     }
     terms.forEach(function (term) {
       var card = document.createElement('article');
@@ -215,23 +215,23 @@
       var spelling = document.createElement('div');
       var characters = normalize(term).match(/[a-z0-9]/g) || [];
 
-      card.className = 'asl-fallback-card';
+      card.className = 'fingerspelling-fallback-card';
       title.textContent = term;
-      spelling.className = 'asl-spelling';
-      spelling.setAttribute('aria-label', 'ASL fingerspelling for ' + term);
+      spelling.className = 'fingerspelling-spelling';
+      spelling.setAttribute('aria-label', 'Letter-by-letter spelling for ' + term);
       var source = document.createElement('p');
       source.className = 'dictionary-card-source';
-      source.textContent = 'ASL fingerspelling';
+      source.textContent = 'ZSL fingerspelling for a word not found in either sign-photo index';
 
       characters.forEach(function (character) {
         var image = document.createElement('img');
         var filename = character === 'g' ? 'G' : character;
-        image.src = './images/ASL_signs/' + filename + '.png';
-        image.alt = 'ASL letter ' + character;
+        image.src = './images/ZSL_signs/' + filename + '.png';
+        image.alt = 'ZSL fingerspelling handshape for ' + character;
         image.loading = 'lazy';
         image.addEventListener('error', function () {
           var unavailable = document.createElement('span');
-          unavailable.className = 'asl-letter-unavailable';
+          unavailable.className = 'fingerspelling-letter-unavailable';
           unavailable.textContent = character + ' image unavailable';
           image.replaceWith(unavailable);
         }, { once: true });
@@ -267,7 +267,7 @@
     return Array.from(new Set(terms.filter(function (term) { return term.length > 0; })));
   }
 
-  function renderOrderedResults(query, dictionary, container, useAslFallback) {
+  function renderOrderedResults(query, dictionary, container, useFingerspellingFallback) {
     var words = tokenize(query);
     var output = [];
     var hasFallback = false;
@@ -291,10 +291,14 @@
       }
 
       var zslMatches = matchingEntries.filter(function (entry) {
-        return entry.source !== 'asl-snippet';
+        return isZslEntry(entry);
       });
       if (zslMatches.length) {
         matchingEntries = preferZslEntries(zslMatches);
+      } else if (matchingEntries.length) {
+        matchingEntries = matchingEntries.filter(function (entry) {
+          return entry.source === 'supplementary-image';
+        });
       } else {
         var relatedZslMatches = findRelatedZslEntries(words[index], dictionary);
         if (relatedZslMatches.length) {
@@ -315,24 +319,26 @@
         });
         index += matchedWordCount;
       } else {
-        output.push({ type: useAslFallback ? 'fallback' : 'missing', word: words[index] });
-        hasFallback = hasFallback || useAslFallback;
+        output.push({ type: useFingerspellingFallback ? 'fallback' : 'missing', word: words[index] });
+        hasFallback = hasFallback || useFingerspellingFallback;
         index += 1;
       }
     }
 
     container.replaceChildren();
     if (hasMatch || hasFallback) {
-      addHeading(container, 'Signs in the order entered');
+      addHeading(container, hasFallback
+        ? (hasMatch ? 'Sign photos and ZSL fingerspelling' : 'ZSL fingerspelling')
+        : 'Sign photos');
     }
     if (hasFallback) {
-      addHeading(container, 'ASL fingerspelling');
+      addMessage(container, 'No sign photo was found in either index. Showing the word with ZSL fingerspelling.');
     }
     output.forEach(function (item) {
       if (item.type === 'sign') {
         addCard(container, item.entry, item.word);
       } else if (item.type === 'fallback') {
-        addAslFallback(container, [item.word], false);
+        addFingerspellingFallback(container, [item.word], false);
       }
     });
     if (!words.length) {
@@ -343,7 +349,7 @@
     }
   }
 
-  function renderResults(query, terms, dictionary, container, useAslFallback) {
+  function renderResults(query, terms, dictionary, container, useFingerspellingFallback) {
     var matches = [];
     var suggestions = [];
     var fallbackTerms = [];
@@ -374,7 +380,7 @@
       }
     });
 
-    if (useAslFallback) {
+    if (useFingerspellingFallback) {
       var exactQueryMatch = dictionary.some(function (entry) {
         return entry.searchTerms.some(function (label) {
           return normalize(label) === normalize(query);
@@ -399,7 +405,7 @@
     container.replaceChildren();
 
     if (matches.length) {
-      addHeading(container, matches.length === 1 ? 'Matching sign' : 'Matching signs');
+      addHeading(container, matches.length === 1 ? 'Sign photo' : 'Sign photos');
       matches.forEach(function (item) { addCard(container, item); });
     }
     if (!matches.length && suggestions.length) {
@@ -407,8 +413,10 @@
       suggestions.slice(0, 6).forEach(function (item) { addCard(container, item); });
     }
 
-    if (useAslFallback && fallbackTerms.length) {
-      addAslFallback(container, fallbackTerms);
+    if (useFingerspellingFallback && fallbackTerms.length) {
+      addHeading(container, 'ZSL fingerspelling');
+      addMessage(container, 'No sign photo was found in either index. Showing ZSL fingerspelling.');
+      addFingerspellingFallback(container, fallbackTerms, false);
     }
     if (query.length > 250) {
       addMessage(container, 'Showing matching words from the first part of your text. Search a shorter passage to look up the rest.');
@@ -447,11 +455,11 @@
         var dictionary = await loadDictionary();
         if (currentId === requestId) {
           var splitWords = form.getAttribute('data-split-words') === 'true';
-          var useAslFallback = form.getAttribute('data-asl-fallback') === 'true';
+          var useFingerspellingFallback = form.getAttribute('data-fingerspelling-fallback') === 'true';
           if (splitWords) {
-            renderOrderedResults(query, dictionary, container, useAslFallback);
+            renderOrderedResults(query, dictionary, container, useFingerspellingFallback);
           } else {
-            renderResults(query, searchTerms(query, splitWords), dictionary, container, useAslFallback);
+            renderResults(query, searchTerms(query, splitWords), dictionary, container, useFingerspellingFallback);
           }
         }
       } catch (error) {
