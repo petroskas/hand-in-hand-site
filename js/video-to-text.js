@@ -413,7 +413,7 @@
     dictionaryResults.replaceChildren();
     var empty = document.createElement('p');
     empty.className = 'results-empty';
-    empty.textContent = 'ASL fingerspelling for recognized words will appear here; use the PDF references for dictionary entries.';
+    empty.textContent = 'Sign references for recognized words will appear here.';
     dictionaryResults.appendChild(empty);
   });
 

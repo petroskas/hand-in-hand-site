@@ -65,7 +65,7 @@
     recognitionError = false;
     recordButton.prop('disabled', true);
     pauseButton.prop('disabled', false);
-    setStatus('Listening… speak naturally. ASL fingerspelling will appear as you speak.');
+    setStatus('Listening… speak naturally. Matching sign references will appear as you speak.');
   };
 
   recognition.onresult = function (event) {
@@ -88,15 +88,15 @@
     isRenderingTranscript = false;
 
     if (interimTranscript) {
-      setStatus('Hearing: ' + recognizedText + '. ASL fingerspelling is updating as you speak.');
+      setStatus('Hearing: ' + recognizedText + '. Matching sign references are updating as you speak.');
     } else if (recognizedText) {
-      setStatus('Recognized: ' + recognizedText + '. ASL fingerspelling is beside the transcript.');
+      setStatus('Recognized: ' + recognizedText + '. Matching sign references are beside the transcript.');
     }
   };
 
   recognition.onspeechend = function () {
     if (isListening) {
-      setStatus('Still listening. Speak when you are ready; recognized words and fingerspelling will appear automatically.');
+      setStatus('Still listening. Speak when you are ready; recognized words and sign references will appear automatically.');
     }
   };
 
@@ -142,7 +142,7 @@
   pauseButton.prop('disabled', true).on('click', function () {
     if (isListening) {
       recognition.stop();
-      setStatus('Voice recognition paused. Your recognized words and fingerspelling are still shown.');
+      setStatus('Voice recognition paused. Your recognized words and sign references are still shown.');
     }
   });
 

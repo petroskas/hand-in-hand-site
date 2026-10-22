@@ -99,13 +99,13 @@
   function requestGeneratedVideo(text, shouldPlay, requestId) {
     var provider = getZslVideoProvider();
     if (!provider) {
-      providerStatusNotice = 'No ZSL video provider is configured; using the available fingerspelling sequence.';
+      providerStatusNotice = '';
       return false;
     }
 
     if (!supportsZsl(provider)) {
-      providerStatusNotice = 'The configured provider does not declare ZSL support; using the available fingerspelling sequence.';
-      setStatus(providerStatusNotice);
+      providerStatusNotice = '';
+      setStatus('Showing the available sign references and fingerspelling.');
       return true;
     }
 
@@ -257,7 +257,7 @@
       } else if (dictionaryResults.querySelector('.results-empty')) {
         setStatus('Enter a word or phrase to prepare its sign sequence.');
       } else if (!dictionaryResults.querySelector('.results-message')) {
-        setStatus('No sign frames were found. Try another phrase or check the dictionary reference.');
+        setStatus('Looking up sign references…');
       }
       return;
     }
@@ -265,7 +265,7 @@
     frames = nextFrames;
     setPlaying(false);
     showFrame(0);
-    setStatus(frames.length + ' sign frame' + (frames.length === 1 ? '' : 's') + ' ready. Available dictionary references are preferred; missing words use ASL fingerspelling.' +
+    setStatus(frames.length + ' sign frame' + (frames.length === 1 ? '' : 's') + ' ready. Dictionary photos and supplementary ASL references are shown in order.' +
       (providerStatusNotice ? ' ' + providerStatusNotice : ''));
     if (autoPlayWhenReady) {
       autoPlayWhenReady = false;
@@ -292,7 +292,7 @@
     dictionaryForm.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
     var hasProvider = requestGeneratedVideo(text, autoPlayWhenReady, providerRequestId);
     if (!hasProvider) {
-      setStatus('Preparing the available sign-reference and fingerspelling sequence. ' + providerStatusNotice);
+      setStatus('Preparing sign references and fingerspelling.');
     }
   }
 

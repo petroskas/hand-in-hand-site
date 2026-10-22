@@ -107,11 +107,7 @@
     image.loading = 'lazy';
     image.addEventListener('error', function () {
       image.remove();
-      if (item.source === 'asl-snippet') {
-        addMessage(card, 'The ASL sign image could not be loaded. This is not a ZSL sign.', 'results-message error');
-        return;
-      }
-      addMessage(card, 'This ZSL sign photo could not be loaded. The spelling below is an English fingerspelling aid, not a ZSL sign.', 'results-message error');
+      addMessage(card, 'Image could not be loaded. Showing fingerspelling.', 'results-message error');
       addAslFallback(card, [label], false);
     }, { once: true });
     image.src = item.image;
@@ -121,7 +117,7 @@
     var source = document.createElement('p');
     source.className = 'dictionary-card-source';
     if (item.source === 'asl-snippet') {
-      source.textContent = 'ASL sign image from The Joy of Signing, page ' + item.page + '. This is not a ZSL sign.';
+      source.textContent = 'ASL visual reference · The Joy of Signing, page ' + item.page;
     } else {
       source.textContent = item.source === 'zsl-pdf'
         ? 'Source: scanned Zimbabwean Sign Language dictionary.'
@@ -212,7 +208,6 @@
   function addAslFallback(container, terms, includeHeading) {
     if (includeHeading !== false) {
       addHeading(container, 'ASL fingerspelling fallback');
-      addMessage(container, 'No exact Zimbabwean Sign Language (ZSL) sign was found for these words. The images below show ASL fingerspelling; they do not represent ZSL signs.', 'results-message');
     }
     terms.forEach(function (term) {
       var card = document.createElement('article');
@@ -224,6 +219,9 @@
       title.textContent = term;
       spelling.className = 'asl-spelling';
       spelling.setAttribute('aria-label', 'ASL fingerspelling for ' + term);
+      var source = document.createElement('p');
+      source.className = 'dictionary-card-source';
+      source.textContent = 'ASL fingerspelling';
 
       characters.forEach(function (character) {
         var image = document.createElement('img');
@@ -242,6 +240,7 @@
 
       card.appendChild(title);
       card.appendChild(spelling);
+      card.appendChild(source);
       container.appendChild(card);
     });
   }
@@ -273,7 +272,6 @@
     var output = [];
     var hasFallback = false;
     var hasMatch = false;
-    var hasAslSource = false;
 
     for (var index = 0; index < words.length;) {
       var matchingEntries = [];
@@ -314,7 +312,6 @@
             word: words.slice(index, index + matchedWordCount).join(' ')
           });
           hasMatch = true;
-          hasAslSource = hasAslSource || entry.source === 'asl-snippet';
         });
         index += matchedWordCount;
       } else {
@@ -329,21 +326,13 @@
       addHeading(container, 'Signs in the order entered');
     }
     if (hasFallback) {
-      addMessage(container, window.HAND_IN_HAND_DICTIONARY_MODE === 'pdf-only'
-        ? 'This online site omits dictionary photo snippets. The images below show ASL fingerspelling only, not ZSL signs; use the linked PDF references for dictionary entries.'
-        : 'No ZSL or ASL dictionary illustration was found for some words. The images below show ASL fingerspelling; they do not represent ZSL signs.',
-      'results-message');
-    }
-    if (hasAslSource) {
-      addMessage(container, 'No exact ZSL sign was found for some words. ASL sign images from The Joy of Signing are shown for those words; they are not ZSL signs.', 'results-message');
+      addHeading(container, 'ASL fingerspelling');
     }
     output.forEach(function (item) {
       if (item.type === 'sign') {
         addCard(container, item.entry, item.word);
       } else if (item.type === 'fallback') {
         addAslFallback(container, [item.word], false);
-      } else {
-        addMessage(container, 'No sign photo found for "' + item.word + '". Try another word or browse the full dictionary PDF.');
       }
     });
     if (!words.length) {
@@ -374,13 +363,15 @@
       if (exactEntries.length) {
         return;
       }
-      dictionary.forEach(function (entry) {
-        if (needle.length >= 2 && entry.searchTerms.some(function (label) {
+      if (window.HAND_IN_HAND_DICTIONARY_MODE !== 'snippets-only') {
+        dictionary.forEach(function (entry) {
+          if (needle.length >= 2 && entry.searchTerms.some(function (label) {
           return normalize(label).indexOf(needle) !== -1;
-        }) && !suggestions.some(function (item) { return item.filename === entry.filename; })) {
-          suggestions.push(entry);
-        }
-      });
+          }) && !suggestions.some(function (item) { return item.filename === entry.filename; })) {
+            suggestions.push(entry);
+          }
+        });
+      }
     });
 
     if (useAslFallback) {
@@ -408,29 +399,16 @@
     container.replaceChildren();
 
     if (matches.length) {
-      if (matches.some(function (item) { return item.source === 'asl-snippet'; })) {
-        addMessage(container, 'No exact ZSL sign was found for some words. ASL sign images from The Joy of Signing are shown for those words; they are not ZSL signs.', 'results-message');
-      }
       addHeading(container, matches.length === 1 ? 'Matching sign' : 'Matching signs');
       matches.forEach(function (item) { addCard(container, item); });
     }
     if (!matches.length && suggestions.length) {
-      addMessage(container, 'No exact sign found. Here are some close matches.');
       addHeading(container, 'Related words');
       suggestions.slice(0, 6).forEach(function (item) { addCard(container, item); });
     }
 
-    if (!matches.length && !suggestions.length && (!useAslFallback || !fallbackTerms.length)) {
-      addMessage(container, 'No sign photo found for "' + query + '". Try another word or browse the full dictionary PDF.');
-    }
     if (useAslFallback && fallbackTerms.length) {
-      if (window.HAND_IN_HAND_DICTIONARY_MODE === 'pdf-only') {
-        addHeading(container, 'ASL fingerspelling only');
-        addMessage(container, 'This online site omits dictionary photo snippets. The images below show ASL fingerspelling only, not ZSL signs; use the linked PDF references for dictionary entries.', 'results-message');
-        addAslFallback(container, fallbackTerms, false);
-      } else {
-        addAslFallback(container, fallbackTerms);
-      }
+      addAslFallback(container, fallbackTerms);
     }
     if (query.length > 250) {
       addMessage(container, 'Showing matching words from the first part of your text. Search a shorter passage to look up the rest.');

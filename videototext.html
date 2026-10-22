@@ -38,7 +38,7 @@
     <section class="video-text-heading">
       <p class="eyebrow">Camera sign recognition</p>
       <h1>Video to <span>text.</span></h1>
-      <p>Allow camera access and sign in front of it. A compatible ZSL recognition model can transcribe signs into text. The hosted version does not include dictionary photo snippets; use the PDF references or ASL fingerspelling aids.</p>
+      <p>Allow camera access and sign in front of it. A compatible ZSL recognition model can transcribe signs into text; the hosted site shows ASL fingerspelling and links to full ZSL and ASL PDF references.</p>
     </section>
 
     <section class="camera-workspace" aria-label="Camera sign recognition and dictionary lookup">
@@ -121,10 +121,10 @@
           <p class="eyebrow">Optional word references</p>
           <h2 id="detected-dictionary-title">See the <span>sign photos.</span></h2>
         </div>
-        <p class="section-description">Recognized text can be searched without changing the transcript. ZSL signs are preferred, then available ASL dictionary illustrations; words without a match use the existing ASL fingerspelling aid.</p>
+        <p class="section-description">Recognized text can be searched without changing the transcript. The hosted search shows ASL fingerspelling; use the PDF references for dictionary entries.</p>
       </div>
-      <div id="camera-dictionary-results" class="dictionary-results" data-dictionary-results role="region" aria-label="Sign dictionary photos for recognized words" aria-live="polite" aria-atomic="true">
-        <p class="results-empty">Start a camera session with a recognition model, or enter text above and select “Find dictionary signs”.</p>
+      <div id="camera-dictionary-results" class="dictionary-results" data-dictionary-results role="region" aria-label="Fingerspelling for recognized words" aria-live="polite" aria-atomic="true">
+        <p class="results-empty">Start a camera session with a recognition model, or enter text above to see ASL fingerspelling.</p>
       </div>
       <form id="camera-dictionary-search" class="camera-dictionary-search" data-dictionary-search data-search-input="#camera-dictionary-query" data-results-selector="#camera-dictionary-results" data-search-delay="0" data-split-words="true" data-asl-fallback="true" aria-hidden="true">
         <input id="camera-dictionary-query" type="search">
