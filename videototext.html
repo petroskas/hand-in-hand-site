@@ -122,7 +122,7 @@
         </div>
         <p class="section-description">This small downloaded dataset contains still photos of ASL digits 0–9. It is not ZSL video data and does not train or connect to this page’s ZSL camera recognizer.</p>
       </div>
-      <p>For a local computer experiment, train and run the separate webcam demo from the project folder:</p>
+      <p>This hosted page cannot run Python or access the local model. Download the <a href="https://github.com/petroskas/hand-in-hand-site/blob/main/scripts/asl_digits_demo.py">training script</a> and run it locally from the project folder with Python, NumPy, and OpenCV installed:</p>
       <pre><code>python scripts\asl_digits_demo.py train "C:\path\to\Sign-Language-Digits-Dataset-master.zip"
 python scripts\asl_digits_demo.py camera</code></pre>
       <p class="privacy-note">The experimental camera output is labeled ASL digits, not ZSL. The existing ZSL transcript stays separate and requires a genuine ZSL-specific model. See the README for requirements and limitations.</p>
