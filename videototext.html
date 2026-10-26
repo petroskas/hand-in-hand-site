@@ -114,6 +114,20 @@
       </div>
     </section>
 
+    <section class="dataset-collector" aria-labelledby="asl-digit-experiment-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Separate local experiment</p>
+          <h2 id="asl-digit-experiment-title">Test image classification with <span>ASL digits.</span></h2>
+        </div>
+        <p class="section-description">This small downloaded dataset contains still photos of ASL digits 0–9. It is not ZSL video data and does not train or connect to this page’s ZSL camera recognizer.</p>
+      </div>
+      <p>For a local computer experiment, train and run the separate webcam demo from the project folder:</p>
+      <pre><code>python scripts\asl_digits_demo.py train "C:\path\to\Sign-Language-Digits-Dataset-master.zip"
+python scripts\asl_digits_demo.py camera</code></pre>
+      <p class="privacy-note">The experimental camera output is labeled ASL digits, not ZSL. The existing ZSL transcript stays separate and requires a genuine ZSL-specific model. See the README for requirements and limitations.</p>
+    </section>
+
     <section class="detected-dictionary" aria-labelledby="detected-dictionary-title">
       <div class="section-heading">
         <div>
