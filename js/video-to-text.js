@@ -7,9 +7,7 @@
   var startButton = document.getElementById('start-camera');
   var stopButton = document.getElementById('stop-camera');
   var cameraStatus = document.getElementById('camera-status');
-  var languageSelect = document.getElementById('recognition-language');
   var transcript = document.getElementById('recognized-text');
-  var confidence = document.getElementById('recognition-confidence');
   var dictionaryInput = document.getElementById('camera-dictionary-query');
   var dictionaryForm = document.getElementById('camera-dictionary-search');
   var dictionaryResults = document.getElementById('camera-dictionary-results');
@@ -47,12 +45,11 @@
     var isRecordingSample = Boolean(sampleRecorder && sampleRecorder.state === 'recording');
     var canRecord = Boolean(stream && sampleConsent.checked &&
       sampleGloss.value.trim() && sampleTranslation.value.trim() &&
-      sampleParticipant.value.trim() && languageSelect.value === 'zsl' &&
+      sampleParticipant.value.trim() &&
       typeof window.MediaRecorder === 'function' &&
       !isRecordingSample && (!sampleRecorder || sampleRecorder.state === 'inactive'));
     startSampleButton.disabled = !canRecord;
     stopSampleButton.disabled = !isRecordingSample;
-    languageSelect.disabled = isRecordingSample;
     downloadAnnotationsButton.disabled = collectedSamples.length === 0;
   }
 
@@ -91,7 +88,7 @@
     }
     var clip = new Blob(sampleChunks, { type: sampleRecorder.mimeType || 'video/webm' });
     if (!clip.size) {
-      setDatasetStatus('The browser produced an empty recording. Check MediaRecorder support and try again.');
+      setDatasetStatus('No video was saved. Check camera access and try again.');
       sampleChunks = [];
       activeSampleLabels = null;
       updateSampleControls();
@@ -114,24 +111,23 @@
       durationMs: Date.now() - sampleStartedAt,
       bytes: clip.size
     });
-    setDatasetStatus('Saved ' + sampleName + '. Sample ' + collectedSamples.length +
-      ' is in your browser downloads; download the labels CSV to keep its annotation.');
+    setDatasetStatus('Sample ' + collectedSamples.length + ' saved. Download the labels CSV to keep its details.');
     sampleChunks = [];
     activeSampleLabels = null;
     updateSampleControls();
   }
 
   function startSampleRecording() {
-    if (!stream || !sampleConsent.checked || languageSelect.value !== 'zsl') {
-      setDatasetStatus('Start the camera, select ZSL, and confirm informed consent before recording a sample.');
+    if (!stream || !sampleConsent.checked) {
+      setDatasetStatus('Start the camera and confirm the signer’s consent before recording a sample.');
       return;
     }
     if (!sampleGloss.value.trim() || !sampleTranslation.value.trim() || !sampleParticipant.value.trim()) {
-      setDatasetStatus('Enter the ZSL sign/gloss, English meaning, and a pseudonymous participant code.');
+      setDatasetStatus('Enter the sign label, English meaning, and participant code.');
       return;
     }
     if (typeof window.MediaRecorder !== 'function') {
-      setDatasetStatus('Video recording is not supported in this browser. Use a supported browser or record research samples separately.');
+      setDatasetStatus('Video recording is not supported in this browser.');
       updateSampleControls();
       return;
     }
@@ -160,7 +156,7 @@
       sampleRecorder.addEventListener('stop', saveSample, { once: true });
       sampleRecorder.addEventListener('error', function (event) {
         console.error('Research sample recording failed:', event.error);
-        setDatasetStatus('The sample recording failed. Check browser recording support and camera permissions.');
+        setDatasetStatus('The sample could not be saved. Check camera access and try again.');
         sampleChunks = [];
         activeSampleLabels = null;
         updateSampleControls();
@@ -171,7 +167,7 @@
       updateSampleControls();
     } catch (error) {
       console.error('Research sample recorder could not start:', error);
-      setDatasetStatus('The sample recorder could not start (' + error.message + ').');
+      setDatasetStatus('Recording could not start. Check camera access and try again.');
       updateSampleControls();
     }
   }
@@ -202,7 +198,7 @@
     if (!provider || typeof provider.recognizeFrame !== 'function') {
       return null;
     }
-    var language = languageSelect.value;
+    var language = 'zsl';
     var supportsLanguage = provider.language === language ||
       (Array.isArray(provider.languages) && provider.languages.indexOf(language) !== -1);
     return supportsLanguage ? provider : null;
@@ -254,12 +250,7 @@
       renderTranscript(false);
     }
 
-    if (Number.isFinite(result.confidence) && result.confidence >= 0 && result.confidence <= 1) {
-      confidence.textContent = 'Model confidence: ' + Math.round(result.confidence * 100) + '%';
-    } else {
-      confidence.textContent = '';
-    }
-    setCameraStatus('Recognized ' + languageSelect.options[languageSelect.selectedIndex].text + '. Review the transcript; matching sign photos update automatically.');
+    setCameraStatus('Your message was updated. Matching sign photos appear below.');
   }
 
   function stopRecognitionLoop() {
@@ -276,15 +267,14 @@
     var provider = getProvider();
     if (!provider) {
       stopRecognitionLoop();
-      setCameraStatus('Camera is on, but no compatible ' + languageSelect.value.toUpperCase() +
-        ' sign-recognition model is configured. The camera will not guess signs; you can type text below to see sign photos.');
+      setCameraStatus('Camera sign recognition is not available yet. Type a message below to look up signs.');
       return;
     }
 
     try {
       var result = await provider.recognizeFrame({
         video: video,
-        language: languageSelect.value
+        language: 'zsl'
       });
       if (!isRecognizing) {
         return;
@@ -298,7 +288,7 @@
     } catch (error) {
       console.error('Camera sign recognition failed:', error);
       stopRecognitionLoop();
-      setCameraStatus('The sign-recognition model failed. Camera preview remains available; check the model configuration and try again.');
+      setCameraStatus('Sign recognition is not available right now. You can type a message below to look up signs.');
       return;
     }
 
@@ -330,12 +320,12 @@
 
   startButton.addEventListener('click', async function () {
     if (!navigator.mediaDevices || typeof navigator.mediaDevices.getUserMedia !== 'function') {
-      setCameraStatus('Camera access is unavailable in this browser. Use HTTPS or localhost, or enter text below.');
+      setCameraStatus('Camera access is unavailable. You can still type a message below to look up signs.');
       return;
     }
 
     startButton.disabled = true;
-    setCameraStatus('Requesting camera permission…');
+    setCameraStatus('Waiting for camera permission…');
     try {
       stream = await navigator.mediaDevices.getUserMedia({
         audio: false,
@@ -351,29 +341,28 @@
       var provider = getProvider();
       if (provider) {
         isRecognizing = true;
-        setCameraStatus('Camera is on. Sign clearly in ' + languageSelect.options[languageSelect.selectedIndex].text + '.');
+        setCameraStatus('Camera is on. Use the form below to record a sample.');
         recognizeNextFrame();
       } else {
-        setCameraStatus('Camera preview is on, but no compatible ' + languageSelect.value.toUpperCase() +
-          ' sign-recognition model is configured. No signs will be guessed; manual text and sign-photo lookup are available.');
+        setCameraStatus('Camera preview is on. Live sign recognition is not available yet.');
       }
       updateSampleControls();
     } catch (error) {
       console.error('Camera could not start:', error);
       stopCamera();
       if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
-        setCameraStatus('Camera permission was denied. Allow camera access in browser settings to try again.');
+        setCameraStatus('Camera permission was not granted. Allow camera access in your browser settings to try again.');
       } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
-        setCameraStatus('No camera was found. Connect a camera or enter text manually.');
+        setCameraStatus('No camera was found. You can still type a message below to look up signs.');
       } else {
-        setCameraStatus('Camera could not start (' + error.message + '). Use HTTPS or localhost and check camera permissions.');
+        setCameraStatus('Camera could not start. Check your camera permission and try again.');
       }
     }
   });
 
   stopButton.addEventListener('click', function () {
     stopCamera();
-    setCameraStatus('Camera stopped. Your recognized text is still available.');
+    setCameraStatus('Camera stopped. Your message is still available.');
   });
 
   [sampleGloss, sampleTranslation, sampleParticipant, sampleConsent].forEach(function (input) {
@@ -387,12 +376,11 @@
       setDatasetStatus('Consent was withdrawn. The current clip will be discarded.');
     }
   });
-  languageSelect.addEventListener('change', updateSampleControls);
   startSampleButton.addEventListener('click', startSampleRecording);
   stopSampleButton.addEventListener('click', function () {
     if (sampleRecorder && sampleRecorder.state === 'recording') {
       sampleRecorder.stop();
-      setDatasetStatus('Finalizing the clip and saving it to your browser downloads…');
+      setDatasetStatus('Saving your sample…');
       updateSampleControls();
     }
   });
@@ -408,33 +396,17 @@
     committedText = '';
     interimText = '';
     lastFinalPrediction = '';
-    confidence.textContent = '';
     renderTranscript(true);
     dictionaryResults.replaceChildren();
     var empty = document.createElement('p');
     empty.className = 'results-empty';
-    empty.textContent = 'Sign photos for recognized words will appear here.';
+    empty.textContent = 'Sign photos and spelling aids will appear here.';
     dictionaryResults.appendChild(empty);
   });
 
   document.getElementById('find-transcript-signs').addEventListener('click', function () {
     updateDictionary(transcript.value.trim());
     dictionaryForm.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
-  });
-
-  languageSelect.addEventListener('change', function () {
-    if (!stream) {
-      return;
-    }
-    stopRecognitionLoop();
-    if (getProvider()) {
-      isRecognizing = true;
-      setCameraStatus('Camera is on. Sign clearly in ' + languageSelect.options[languageSelect.selectedIndex].text + '.');
-      recognizeNextFrame();
-    } else {
-      setCameraStatus('The connected model does not support ' + languageSelect.value.toUpperCase() +
-        '. Camera preview remains on; sign recognition is paused.');
-    }
   });
 
   dictionaryForm.addEventListener('submit', function (event) {
